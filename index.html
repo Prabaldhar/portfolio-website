@@ -10,165 +10,166 @@
   <style>
     :root{
       --bg:#020617; --panel:#071022; --muted:#9aa4b2; --accent:#7c3aed; --accent-2:#06b6d4; --neon: #83f0ff;
-      --glass: rgba(255,255,255,0.03); --card-radius:14px; --max-width:1200px; --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace;
+      --glass: rgba(255,255,255,0.03); --card-radius:12px; --max-width:1100px; --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace;
+      --gap:18px; --pad:20px;
     }
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;background:radial-gradient(900px 400px at 10% 10%, rgba(124,58,237,0.06), transparent), linear-gradient(180deg,var(--bg) 0%, #041226 100%);color:#e6eef6}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;background:radial-gradient(900px 400px at 10% 10%, rgba(124,58,237,0.06), transparent), linear-gradient(180deg,var(--bg) 0%, #041226 100%);color:#e6eef6;-webkit-font-smoothing:antialiased}
     a{color:inherit}
-    .container{max-width:var(--max-width);margin:28px auto;padding:22px;position:relative;z-index:2}
+    .container{max-width:var(--max-width);margin:20px auto;padding:var(--pad);position:relative;z-index:2}
 
-    /* Animated circuit background (subtle) */
+    /* Background */
     .circuit-bg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.12}
-    .circuit-bg svg{width:100%;height:100%}
 
-    header{display:flex;align-items:center;justify-content:space-between;gap:16px}
-    .brand{display:flex;align-items:center;gap:14px}
-    .avatar{width:68px;height:68px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:900;color:#031124;font-size:18px;box-shadow:0 10px 30px rgba(2,6,23,0.7)}
-    .brand h1{margin:0;font-size:18px}
-    nav{display:flex;gap:12px;align-items:center}
-    nav a{padding:8px 12px;border-radius:10px;color:var(--muted);text-decoration:none;font-weight:700;letter-spacing:0.4px}
+    /* Header */
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .avatar{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:900;color:#031124;font-size:16px;flex-shrink:0}
+    .brand h1{margin:0;font-size:16px}
+    nav{display:flex;gap:8px;align-items:center}
+    nav a{padding:8px 10px;border-radius:10px;color:var(--muted);text-decoration:none;font-weight:700;letter-spacing:0.3px;font-size:14px}
     nav a.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021124}
 
-    /* Hero */
-    .hero{display:grid;grid-template-columns:1fr;gap:20px;margin-top:24px}
-    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.008));border-radius:var(--card-radius);padding:22px;box-shadow:0 14px 40px rgba(2,6,23,0.6);backdrop-filter: blur(8px)}
-    .title{font-size:34px;margin:0;line-height:1.02}
-    .muted{color:var(--muted)}
+    /* mobile menu button */
+    .menu-btn{display:none;background:transparent;border:1px solid rgba(255,255,255,0.03);padding:8px;border-radius:8px;color:var(--muted)}
 
-    /* Terminal/code snippet */
-    .terminal{background:#020617;border-radius:12px;padding:14px;font-family:var(--mono);color:#bfe9ff;font-size:13px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.02)}
+    /* Hero */
+    .hero{display:grid;grid-template-columns:1fr;gap:var(--gap);margin-top:18px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.008));border-radius:var(--card-radius);padding:18px;box-shadow:0 12px 30px rgba(2,6,23,0.6);backdrop-filter: blur(6px)}
+    .title{font-size:26px;margin:0;line-height:1.08}
+    .muted{color:var(--muted);font-size:14px}
+
+    /* Terminal/code */
+    .terminal{background:#020617;border-radius:10px;padding:12px;font-family:var(--mono);color:#bfe9ff;font-size:13px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.02)}
     .term-row{display:flex;gap:8px;align-items:center}
     .prompt{color:#8be9ff}
     .cmd{color:#c9f1ff}
     .blink{display:inline-block;width:8px;height:16px;background:var(--accent);margin-left:6px;vertical-align:bottom;animation:blink 1s steps(2) infinite}
-    @keyframes blink{50%{opacity:0}}
 
-    /* Skills grid */
-    .skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-top:8px}
-    .skill{padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);font-weight:800;color:var(--muted);display:flex;align-items:center;gap:12px}
+    /* Skills */
+    .skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:8px}
+    .skill{padding:10px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);font-weight:700;color:var(--muted);display:flex;align-items:center;gap:10px;font-size:14px}
     .skill .dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(180deg,var(--accent),var(--accent-2))}
 
-    /* Projects - neon/terminal cards */
-    .projects{display:grid;grid-template-columns:1fr;gap:16px;margin-top:18px}
-    .project{display:grid;grid-template-columns:110px 1fr;gap:14px;padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(10,12,20,0.5), rgba(255,255,255,0.01));border:1px solid rgba(124,58,237,0.06);align-items:center;position:relative;overflow:hidden}
-    .project:before{content:'';position:absolute;inset:auto -40% -40% auto;width:220px;height:220px;background:radial-gradient(circle at 20% 20%, rgba(124,58,237,0.06), transparent 30%);transform:rotate(10deg)}
-    .thumb{height:96px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:#031124;font-weight:900;font-family:var(--mono);font-size:20px}
-    .project h3{margin:0;font-size:16px}
+    /* Projects */
+    .projects{display:grid;grid-template-columns:1fr;gap:14px;margin-top:16px}
+    .project{display:grid;grid-template-columns:100px 1fr;gap:12px;padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(10,12,20,0.5), rgba(255,255,255,0.01));border:1px solid rgba(124,58,237,0.06);align-items:start;overflow:hidden}
+    .thumb{height:84px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:#031124;font-weight:900;font-family:var(--mono);font-size:18px}
+    .project h3{margin:0;font-size:15px}
     .project p{margin:6px 0 0 0;color:var(--muted);font-size:13px}
-    .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-    .tag{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02);font-weight:700;color:var(--muted);font-size:12px}
-    .project .actions{margin-top:8px}
-    .btn{padding:8px 12px;border-radius:10px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));text-decoration:none;color:var(--muted);font-weight:800;border:1px solid rgba(255,255,255,0.02)}
+    .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+    .tag{padding:6px 8px;border-radius:999px;background:rgba(255,255,255,0.02);font-weight:700;color:var(--muted);font-size:12px}
+
+    .btn{padding:10px 12px;border-radius:10px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));text-decoration:none;color:var(--muted);font-weight:800;border:1px solid rgba(255,255,255,0.02);display:inline-flex;align-items:center;gap:8px}
     .btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021124;border:none}
 
-    /* Hover neon glow */
-    .project:hover{transform:translateY(-6px);transition:transform .18s ease, box-shadow .18s ease;box-shadow:0 18px 50px rgba(10,12,20,0.7)}
-    .project:hover .thumb{box-shadow:0 8px 30px rgba(124,58,237,0.18)}
-
-    /* responsive */
-    @media(min-width:900px){
-      .hero{grid-template-columns:1fr 380px}
-      .projects{grid-template-columns:repeat(2,1fr)}
-      .project{grid-template-columns:160px 1fr}
+    /* Download & send buttons responsive */
+    .cv-download, .send-btn{display:inline-flex;align-items:center;justify-content:center;white-space:nowrap}
+    @media(max-width:760px){
+      .cv-download, .send-btn{width:100%;padding:12px 16px;font-size:15px}
+      .title{font-size:20px}
+      .avatar{width:50px;height:50px}
+      .container{padding:14px}
     }
 
-    footer{margin-top:26px;color:var(--muted);font-size:13px;text-align:center}
+    /* Hover */
+    .project:hover{transform:translateY(-6px);transition:transform .18s ease, box-shadow .18s ease;box-shadow:0 18px 50px rgba(10,12,20,0.7)}
 
-    /* small UX touches */
-    .kpi{display:flex;gap:12px;align-items:center}
-    .kpi .num{font-weight:900;color:var(--accent);font-family:var(--mono)}
+    /* Desktop layout */
+    @media(min-width:900px){
+      .hero{grid-template-columns:1fr 360px}
+      .projects{grid-template-columns:repeat(2,1fr)}
+      .project{grid-template-columns:140px 1fr}
+      .title{font-size:32px}
+      .menu-btn{display:none}
+    }
+
+    /* Mobile header */
+    @media(max-width:899px){
+      nav{display:none}
+      .menu-btn{display:inline-flex}
+      .brand h1{font-size:16px}
+    }
+
+    footer{margin-top:18px;color:var(--muted);font-size:13px;text-align:center}
   </style>
 </head>
 <body>
   <div class="circuit-bg" aria-hidden="true">
-    <svg viewBox="0 0 1600 900" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="g1" x1="0" x2="1">
-          <stop offset="0" stop-color="#7c3aed" stop-opacity="0.3"/>
-          <stop offset="1" stop-color="#06b6d4" stop-opacity="0.3"/>
-        </linearGradient>
-      </defs>
-      <g stroke="url(#g1)" stroke-width="1.2" fill="none" opacity="0.12">
-        <path d="M40 120 H560 M80 80 V340" />
-        <path d="M260 20 V240 H420" />
-        <path d="M900 50 H1400 V120 H860" />
-        <path d="M1200 400 V760 H1400" />
-        <circle cx="300" cy="160" r="4" fill="#7c3aed" />
-        <circle cx="1320" cy="90" r="3" fill="#06b6d4" />
-      </g>
-    </svg>
+    <svg viewBox="0 0 1600 900" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><g stroke="#7c3aed" stroke-width="1" fill="none" opacity="0.12"><path d="M40 120 H560 M80 80 V340"/><path d="M260 20 V240 H420"/><path d="M900 50 H1400 V120 H860"/><path d="M1200 400 V760 H1400"/></g></svg>
   </div>
 
   <div class="container">
     <header>
       <div class="brand">
-        <div class="avatar">
-  <img src="profile.jpeg" alt="Prabal Dhar" style="width:100%;height:100%;border-radius:12px;object-fit:cover;">
-</div>
-
+        <div class="avatar">PD</div>
         <div>
           <h1>Prabal Dhar</h1>
-          <div class="muted">Computer Science & Data Science — Machine Learning · Deep Learning</div>
+          <div class="muted">Computer Science & Data Science</div>
         </div>
       </div>
-      <nav>
+
+      <nav id="main-nav">
         <a href="#about">About</a>
         <a href="#projects">Projects</a>
         <a href="#skills">Skills</a>
         <a class="primary" href="#contact">Contact</a>
       </nav>
+
+      <button class="menu-btn" id="menu-toggle" aria-label="Open menu">☰</button>
     </header>
 
     <main>
       <section class="hero">
         <div class="card">
-          <div style="display:flex;gap:18px;align-items:flex-start">
-            <div style="flex:1">
-              <div class="title">Hi — I’m Prabal.  Enthusiastic and motivated Computer Science Engineering graduate with a keen interest in machine learning
- and Deep learning. .</div>
-              <p class="muted" style="margin-top:8px">B.Tech (Honours) — CSE (Data Science). I focus on computer vision, medical imaging, and reproducible experiments.</p>
+          <div style="display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap">
+            <div style="flex:1;min-width:220px">
+              <div class="title">Hi — I’m Prabal. I build production-ready ML systems with clean, documented code.</div>
+              <p class="muted" style="margin-top:8px">B.Tech (Honours) — CSE (Data Science). Focused on computer vision, medical imaging and reproducible experiments.</p>
 
-              <div style="display:flex;gap:12px;margin-top:14px;align-items:center">
-                
-                <div style="margin-left:auto;display:flex;gap:8px"><a class="btn" href="https://github.com/PrabalDhar14" target="_blank">GitHub</a><a class="btn primary" href="https://drive.google.com/file/d/1QYk-l2amT0ZbYDbHel9vh91KoG34DzAq/view?usp=drive_link" target="_blank">Download CV</a>
-</div>
+              <div style="display:flex;gap:12px;margin-top:14px;align-items:center;flex-wrap:wrap">
+                <div class="kpi"><div class="num">94.2%</div><div class="muted">validation accuracy</div></div>
+                <div class="kpi"><div class="num">ICBMESH 2025</div><div class="muted">accepted</div></div>
+
+                <div style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;min-width:160px">
+                  <a class="btn" href="https://github.com/PrabalDhar14" target="_blank">GitHub</a>
+                  <a class="btn primary cv-download" href="cv.pdf" target="_blank" download aria-label="Download CV">📄 Download CV</a>
+                </div>
               </div>
 
-              <div style="margin-top:16px" class="terminal">
+              <div style="margin-top:14px" class="terminal">
                 <div class="term-row"><span class="prompt">$</span><span class="cmd">git clone github.com/PrabalDhar14/glaucoma && cd glaucoma</span></div>
                 <div class="term-row"><span class="prompt">$</span><span class="cmd">python train.py --model efficientnet_b3 --epochs 40<span class="blink"></span></span></div>
               </div>
             </div>
 
-            <aside style="width:320px">
+            <aside style="width:320px;min-width:220px;flex:1">
               <div class="card" style="padding:14px">
                 <div style="font-weight:900">Contact</div>
                 <div class="muted" style="margin-top:8px">prabaldharofficial@gmail.com<br/>+880 1854 300237<br/>Chattogram, Bangladesh</div>
                 <hr style="margin:12px 0;border:none;border-top:1px solid rgba(255,255,255,0.03)" />
                 <div style="font-weight:800">Education</div>
-                <div class="muted" style="font-size:13px;margin-top:6px">B.Tech (Honours) — CSE (Data Science) — JAIN Deemed to be University (2021–2025)</div>
+                <div class="muted" style="font-size:13px;margin-top:6px">B.Tech (Honours) — CSE (Data Science) — JAIN Deemed University (2021–2025)</div>
               </div>
             </aside>
           </div>
         </div>
-
-        <div style="display:none" class="card" aria-hidden="true"></div>
       </section>
 
       <section id="skills" style="margin-top:18px">
         <div class="card">
-          <div style="display:flex;justify-content:space-between;align-items:center"><h2 style="margin:0">Technical Skills</h2><div class="muted">CS-focused </div></div>
+          <div style="display:flex;justify-content:space-between;align-items:center"><h2 style="margin:0">Technical Skills</h2><div class="muted">CS-focused & production-ready</div></div>
           <div class="skills">
             <div class="skill"><span class="dot"></span> Python <span style="margin-left:auto" class="muted">good</span></div>
             <div class="skill"><span class="dot"></span> PyTorch <span style="margin-left:auto" class="muted">practical</span></div>
             <div class="skill"><span class="dot"></span> TensorFlow <span style="margin-left:auto" class="muted">good</span></div>
-            <div class="skill"><span class="dot"></span> Computer Vision <span style="margin-left:auto" class="muted">strong</span></div>
-            <div class="skill"><span class="dot"></span> Deep Learning <span style="margin-left:auto" class="muted">moderate</span></div>
-           
-            <div class="skill"><span class="dot"></span> Flask  <span style="margin-left:auto" class="muted">moderate</span></div>
+            <div class="skill"><span class="dot"></span> Computer Vision <span style="margin-left:auto" class="muted">moderate</span></div>
+            <div class="skill"><span class="dot"></span> Deep Learning <span style="margin-left:auto" class="muted">strong</span></div>
+            <div class="skill"><span class="dot"></span> MLOps & Docker <span style="margin-left:auto" class="muted">working</span></div>
+            <div class="skill"><span class="dot"></span> Flask & Web APIs <span style="margin-left:auto" class="muted">working</span></div>
             <div class="skill"><span class="dot"></span> SQL & NoSQL <span style="margin-left:auto" class="muted">MySQL/Mongo</span></div>
             <div class="skill"><span class="dot"></span> Data Viz & EDA <span style="margin-left:auto" class="muted">PowerBI</span></div>
-            <div class="skill"><span class="dot"></span> Algorithms & DS <span style="margin-left:auto" class="muted">good</span></div>
+            <div class="skill"><span class="dot"></span> Algorithms & DS <span style="margin-left:auto" class="muted">moderate</span></div>
           </div>
         </div>
       </section>
@@ -181,8 +182,8 @@
             <div class="thumb">GLU</div>
             <div>
               <h3>Hybrid CNN — Automated Glaucoma Detection</h3>
-              <p>EfficientNetB3 backbone with custom classification heads. Full training pipeline, augmentation, model checkpointing, and Flask demo</p>
-              <div class="tags"><div class="tag">PyTorch</div><div class="tag">Computer Vision</div><div class="tag">Flask</div><div class="tag">Docker</div></div>
+              <p>EfficientNetB3 backbone with custom classification heads. Full training , augmentation, model checkpointing, and Flask demo.</p>
+              <div class="tags"><div class="tag">PyTorch</div><div class="tag">Computer Vision</div><div class="tag">Flask</div></div>
               <div class="actions" style="margin-top:8px"><a class="btn primary" href="https://github.com/PrabalDhar14" target="_blank">View Repo</a></div>
             </div>
           </div>
@@ -203,7 +204,7 @@
               <h3>Women’s Clothing Reviews — Sentiment Pipelines</h3>
               <p>TF-IDF + MultinomialNB baseline, with experiments in fastText embeddings and explainable evaluation for production readiness.</p>
               <div class="tags"><div class="tag">NLP</div><div class="tag">Pipelines</div><div class="tag">Evaluation</div></div>
-              <div class="actions" style="margin-top:8px"><a class="btn" href="https://github.com/PrabalDhar14" target="_blank">View Repo</a></div>
+              <div class="actions" style="margin-top:8px"><a class="btn primary" href="https://github.com/PrabalDhar14" target="_blank">View Repo</a></div>
             </div>
           </div>
 
@@ -213,7 +214,7 @@
               <h3>Energy Consumption — Forecasting & Analysis</h3>
               <p>Feature-window engineering, error analysis, and an explainable forecasting pipeline suitable for integration into dashboards.</p>
               <div class="tags"><div class="tag">Time Series</div><div class="tag">Forecasting</div><div class="tag">Pandas</div></div>
-              <div class="actions" style="margin-top:8px"><a class="btn" href="https://github.com/PrabalDhar14" target="_blank">View Repo</a></div>
+              <div class="actions" style="margin-top:8px"><a class="btn primary" href="https://github.com/PrabalDhar14" target="_blank">View Repo</a></div>
             </div>
           </div>
 
@@ -228,7 +229,7 @@
             </div>
           </div>
           <div style="width:180px;text-align:right">
-            <div style="font-weight:900;font-family:var(--mono);font-size:18px;color:var(--neon)">IEEE ICBMESH · 2025</div>
+            <div style="font-weight:900;font-family:var(--mono);font-size:18px;color:var(--neon)">ICBMESH · 2025</div>
           </div></div>
         </div>
       </section>
@@ -237,12 +238,18 @@
         <div class="card">
           <h2 style="margin:0">Get in touch</h2>
           <p class="muted">Open to internships, research collaborations, and junior ML/AI roles. Email me or use the quick contact form below.</p>
-          <form onsubmit="event.preventDefault();alert('Email link copied to clipboard. Paste and send.');navigator.clipboard.writeText('prabaldharofficial@gmail.com')" style="display:flex;flex-direction:column;gap:8px">
-            <input placeholder="Your name" required style="padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit" />
-            <input placeholder="Your email" required style="padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit" />
-            <textarea placeholder="Message" rows="4" style="padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit"></textarea>
-            <div style="display:flex;gap:8px">
-              <button class="btn primary" type="submit">Send (copy email)</button>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px">
+            <a class="btn primary" href="mailto:prabaldharofficial@gmail.com">Email me directly — prabaldharofficial@gmail.com</a>
+            <a class="btn" href="tel:+8801854300237">Call: +880 1854 300237</a>
+            <a class="btn" href="https://github.com/PrabalDhar14" target="_blank">GitHub</a>
+          </div>
+
+          <form id="contact-form" style="display:flex;flex-direction:column;gap:8px">
+            <input id="cf-name" placeholder="Your name" required style="padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit" />
+            <input id="cf-email" type="email" placeholder="Your email" required style="padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit" />
+            <textarea id="cf-message" placeholder="Message" rows="4" style="padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit"></textarea>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button class="btn primary send-btn" id="send-mail" type="button">Send </button>
               <a class="btn" href="mailto:prabaldharofficial@gmail.com">Or email directly</a>
             </div>
           </form>
@@ -256,10 +263,36 @@
   </div>
 
   <script>
+    // mobile menu toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    const mainNav = document.getElementById('main-nav');
+    menuToggle && menuToggle.addEventListener('click', ()=>{
+      if(mainNav.style.display === 'flex') mainNav.style.display = 'none';
+      else mainNav.style.display = 'flex';
+    });
+
     // smooth anchor scrolling
     document.querySelectorAll('a[href^="#"]').forEach(a=>{
       a.addEventListener('click',e=>{e.preventDefault();const id=a.getAttribute('href');if(!document.querySelector(id))return;document.querySelector(id).scrollIntoView({behavior:'smooth',block:'start'});});
     })
+
+    // Send mail with form fields
+    document.getElementById('send-mail')?.addEventListener('click', function () {
+      const name = document.getElementById('cf-name').value || '';
+      const email = document.getElementById('cf-email').value || '';
+      const msg  = document.getElementById('cf-message').value || '';
+      const subject = encodeURIComponent('Portfolio contact from ' + (name || email || 'Website visitor'));
+      const body = encodeURIComponent(
+        (name ? 'Name: ' + name + '
+' : '') +
+        (email ? 'Email: ' + email + '
+
+' : '') +
+        'Message:
+' + msg
+      );
+      window.location.href = `mailto:prabaldharofficial@gmail.com?subject=${subject}&body=${body}`;
+    });
   </script>
 </body>
 </html>
