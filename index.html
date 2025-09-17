@@ -55,9 +55,9 @@
     .project:hover{transform:translateY(-8px) rotateY(5deg);box-shadow:0 20px 35px rgba(124,58,237,0.4)}
     .thumb{height:84px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:900;font-family:var(--mono);font-size:18px;color:#021124;}
 
-    .btn{padding:10px 12px;border-radius:10px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));color:var(--muted);font-weight:800;transition:transform .2s ease, box-shadow .3s ease;}
+    .btn{padding:10px 12px;border-radius:10px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));color:var(--muted);font-weight:800;transition:transform .2s ease, box-shadow .3s ease;display:inline-flex;align-items:center;gap:8px}
     .btn:hover{transform:translateY(-3px);box-shadow:0 0 15px rgba(124,58,237,0.5)}
-    .btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021124;border:none}
+    .btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021124;border:none;box-shadow:0 6px 18px rgba(124,58,237,0.12);}
 
     footer{margin-top:18px;color:var(--muted);font-size:13px;text-align:center}
 
@@ -68,37 +68,45 @@
     }
   
 
-/* ===== Refined Interactive Animations (improved visuals) ===== */
+  /* ===== Refined Interactive Animations (improved visuals) ===== */
 
-/* skill bars */
-.skill{position:relative;overflow:hidden}
-.skill .bar{position:absolute;left:0;top:0;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));opacity:0.10;z-index:0;transition:width 1.2s cubic-bezier(.2,.9,.3,1)}
-.skill .label{position:relative;z-index:1}
-.skill[data-percent]::after{content:attr(data-percent) '%';position:absolute;right:10px;top:50%;transform:translateY(-50%);font-weight:800;color:rgba(255,255,255,0.9);font-family:var(--mono);font-size:12px}
+  /* skill bars */
+  .skill{position:relative;overflow:hidden}
+  .skill .bar{position:absolute;left:0;top:0;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));opacity:0.10;z-index:0;transition:width 1.2s cubic-bezier(.2,.9,.3,1)}
+  .skill .label{position:relative;z-index:1}
+  .skill[data-percent]::after{content:attr(data-percent) '%';position:absolute;right:10px;top:50%;transform:translateY(-50%);font-weight:800;color:rgba(255,255,255,0.9);font-family:var(--mono);font-size:12px}
 
-/* project flip (only on desktop hover shows hint) */
-.project{perspective:900px;cursor:pointer}
-.project-inner{transition:transform .65s cubic-bezier(.22,.9,.3,1);transform-style:preserve-3d;position:relative}
-.project-front, .project-back{backface-visibility:hidden;border-radius:8px}
-.project-back{position:absolute;inset:0;padding:14px;background:linear-gradient(180deg, rgba(2,6,23,0.9), rgba(255,255,255,0.02));transform:rotateY(180deg);display:flex;flex-direction:column;gap:8px}
-.project.flipped .project-inner{transform:rotateY(180deg)}
-.project .hint{font-size:12px;color:var(--muted);margin-top:8px}
+  /* project flip (only on desktop hover shows hint) */
+  .project{perspective:900px;cursor:pointer}
+  .project-inner{transition:transform .65s cubic-bezier(.22,.9,.3,1);transform-style:preserve-3d;position:relative}
+  .project-front, .project-back{backface-visibility:hidden;border-radius:8px}
+  .project-back{position:absolute;inset:0;padding:14px;background:linear-gradient(180deg, rgba(2,6,23,0.9), rgba(255,255,255,0.02));transform:rotateY(180deg);display:flex;flex-direction:column;gap:8px}
+  .project.flipped .project-inner{transform:rotateY(180deg)}
+  .project .hint{font-size:12px;color:var(--muted);margin-top:8px}
 
-/* tag tooltip */
-.tag{position:relative;cursor:default}
-.tag[data-tip]:hover::after{content:attr(data-tip);position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + 8px);background:#021124;color:#e6eef6;padding:6px 8px;border-radius:6px;font-size:12px;white-space:nowrap;box-shadow:0 6px 18px rgba(2,6,23,0.6)}
+  /* tag tooltip */
+  .tag{position:relative;cursor:default}
+  .tag[data-tip]:hover::after{content:attr(data-tip);position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + 8px);background:#021124;color:#e6eef6;padding:6px 8px;border-radius:6px;font-size:12px;white-space:nowrap;box-shadow:0 6px 18px rgba(2,6,23,0.6)}
 
-/* small card shimmer for interactivity */
-.card:hover{filter:brightness(1.02)}
+  /* small card shimmer for interactivity */
+  .card:hover{filter:brightness(1.02)}
 
-/* particle canvas */
-#particle-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.04}
+  /* particle canvas */
+  #particle-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.04}
 
-/* smoother reveal */
-.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease, transform .6s cubic-bezier(.2,.9,.3,1);will-change:opacity,transform}
-.reveal.visible{opacity:1;transform:none}
+  /* smoother reveal */
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease, transform .6s cubic-bezier(.2,.9,.3,1);will-change:opacity,transform}
+  .reveal.visible{opacity:1;transform:none}
 
-</style>
+  /* typing header */
+  .typed-name{font-weight:900;font-family:var(--mono);display:inline-block}
+  .typed-role{display:block;color:var(--muted);font-weight:700;margin-top:6px}
+
+  /* link style for linkedin */
+  .social-link{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:10px;background:rgba(255,255,255,0.02);font-weight:800;color:var(--muted)}
+  .social-link:hover{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021124}
+
+  </style>
 </head>
 <body>
   <div class="circuit-bg" aria-hidden="true">
@@ -108,10 +116,11 @@
   <div class="container">
     <header>
       <div class="brand">
-        <div class="avatar"><img src="profile.jpeg" alt="Prabal Dhar" style="width:100%;height:100%;object-fit:cover;"></div>
+        <div class="avatar"><img src="profile.jpeg" alt="Prabal Dhar" style="width:100%;height:100%;object-fit:cover;transform:translateZ(40px);"></div>
         <div>
-          <h1>Prabal Dhar</h1>
-          <div class="muted">Computer Science & Data Science</div>
+          <!-- typed name & role: will be filled by JS typing animation -->
+          <h1 id="typed-name" style="margin:0"><span class="typed-name"></span></h1>
+          <div id="typed-role" class="muted typed-role">Computer Science & Data Science</div>
         </div>
       </div>
       <nav>
@@ -119,23 +128,26 @@
         <a href="#projects">Projects</a>
         <a href="#skills">Skills</a>
         <a class="primary" href="#contact">Contact</a>
+        <!-- LinkedIn quick link -->
+        <a class="social-link" href="www.linkedin.com/in/prabaldhar01" target="_blank" rel="noopener">LinkedIn</a>
       </nav>
     </header>
 
     <main>
       <section class="hero">
         <div class="card">
-          <h2 class="title">Hi — I’m Prabal. Enthusiastic Computer Science Engineering graduate passionate about Machine Learning & Deep Learning.</h2>
+          <h2 class="title">Hi — I’m <span class="typed-name-inline" aria-hidden="true"></span></h2>
           <p class="muted">B.Tech (Honours) — CSE (Data Science).</p>
 
           <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px">
-            <a class="btn" href="https://github.com/PrabalDhar14" target="_blank">GitHub</a>
-            <a class="btn primary" href="https://drive.google.com/uc?export=download&id=1QYk-l2amT0ZbYDbHel9vh91KoG34DzAq" target="_blank">📄 Download CV</a>
+            <a class="btn" href="https://github.com/PrabalDhar14" target="_blank" rel="noopener">GitHub</a>
+            <a class="btn primary" href="https://drive.google.com/uc?export=download&id=1QYk-l2amT0ZbYDbHel9vh91KoG34DzAq" target="_blank" rel="noopener">📄 Download CV</a>
+            <a class="social-link" href="https://www.linkedin.com/in/prabal-dhar" target="_blank" rel="noopener">🔗 LinkedIn</a>
           </div>
 
           <div class="terminal">
-            <div><span class="prompt">$</span> git clone github.com/PrabalDhar14/glaucoma && cd glaucoma</div>
-            <div><span class="prompt">$</span> python train.py --model efficientnet_b3 --epochs 40<span class="blink"></span></div>
+            <div><span class="prompt">$</span> Enthusiastic Computer Science Engineering graduate passionate about Machine Learning & Deep Learning<span class="blink"></span></div>
+           
           </div>
         </div>
       </section>
@@ -144,12 +156,12 @@
         <div class="card">
           <h2>Technical Skills</h2>
           <div class="skills">
-            <div class="skill"><span class="dot"></span>Python</div>
-            <div class="skill"><span class="dot"></span>PyTorch</div>
-            <div class="skill"><span class="dot"></span>TensorFlow</div>
-            <div class="skill"><span class="dot"></span>Computer Vision</div>
-            <div class="skill"><span class="dot"></span>Deep Learning</div>
-            <div class="skill"><span class="dot"></span>MLOps</div>
+            <div class="skill" data-percent="80"><span class="dot"></span>Python</div>
+            <div class="skill" data-percent="85"><span class="dot"></span>PyTorch</div>
+            <div class="skill" data-percent="75"><span class="dot"></span>TensorFlow</div>
+            <div class="skill" data-percent="75"><span class="dot"></span>Computer Vision</div>
+            <div class="skill" data-percent="80"><span class="dot"></span>Deep Learning</div>
+            <div class="skill" data-percent="70"><span class="dot"></span>MLOps</div>
           </div>
         </div>
       </section>
@@ -157,14 +169,18 @@
       <section id="projects">
         <h2>Projects</h2>
         <div class="projects">
-          <div class="project">
+          <div class="project" data-title="Hybrid CNN — Glaucoma Detection" data-desc="EfficientNetB3 backbone, custom heads, extensive augmentation, model checkpointing, and a Flask demo + Docker deployment. Achieved strong validation performance with robust error analysis." data-repo="https://github.com/PrabalDhar14/glaucoma">
             <div class="thumb">GLU</div>
-            <div><h3>Hybrid CNN — Glaucoma Detection</h3><p>EfficientNetB3 with full pipeline and Flask demo.</p></div>
+            <div class="project-front"><h3>Hybrid CNN — Glaucoma Detection</h3><p>EfficientNetB3 with full pipeline and Flask demo.</p><div class="hint">Click to view details</div></div>
           </div>
-          <div class="project">
+
+          <div class="project" data-title="Iris Flower Classification" data-desc="Clean experiments focused on reproducibility: deterministic seeds, stratified cross-validation, hyperparameter search, and clear evaluation visuals. Includes notebooks and a small web demo." data-repo="https://github.com/PrabalDhar14/iris">
             <div class="thumb">IRIS</div>
-            <div><h3>Iris Flower Classification</h3><p>Reproducible ML experiments with cross-validation.</p></div>
+            <div class="project-front"><h3>Iris Flower Classification</h3><p>Reproducible ML experiments with cross-validation.</p><div class="hint">Click to view details</div></div>
           </div>
+
+          
+
         </div>
       </section>
 
@@ -176,15 +192,43 @@
       </section>
 
       <footer>
-        <div>Made with ❤️ — Prabal Dhar · <a href="https://github.com/PrabalDhar14" target="_blank">GitHub</a></div>
+        <div>Made with ❤️ — Prabal Dhar · <a href="https://github.com/PrabalDhar14" target="_blank" rel="noopener">GitHub</a></div>
       </footer>
     </main>
   </div>
 
 
-<!-- Interactive JS: refined skill bars, flip cards, particles, reveal -->
+<!-- Interactive JS: typing, refined skill bars, flip cards, particles, reveal -->
 <script>
 document.addEventListener('DOMContentLoaded', function(){
+  // typing animation for header name + role (non-blocking)
+  const nameEl = document.querySelector('#typed-name .typed-name');
+  const roleEl = document.getElementById('typed-role');
+  const inlineName = document.querySelector('.typed-name-inline');
+  const fullName = 'Prabal Dhar';
+  const fullRole = 'Computer Science & Data Science';
+
+  // simple typewriter helper
+  function typeText(el, text, speed=80, callback){
+    el.textContent = '';
+    let i=0;
+    const t = setInterval(()=>{
+      el.textContent += text[i] || '';
+      i++;
+      if(i>text.length){ clearInterval(t); if(callback) callback(); }
+    }, speed);
+  }
+
+  // start typing after tiny delay so animated background settles
+  setTimeout(()=>{
+    // type in both header and inline title for visual consistency
+    if(nameEl){ typeText(nameEl, fullName, 90, ()=>{}); }
+    if(inlineName){ typeText(inlineName, fullName, 90, ()=>{}); }
+    if(roleEl){ // type role after name completes
+      setTimeout(()=> typeText(roleEl, fullRole, 60), fullName.length*90 + 200);
+    }
+  }, 300);
+
   // reveal observer (stagger)
   const reveals = document.querySelectorAll('.card, .project');
   const io = new IntersectionObserver((entries)=>{
@@ -203,27 +247,51 @@ document.addEventListener('DOMContentLoaded', function(){
     setTimeout(()=>{ bar.style.width = Math.max(6, Math.min(100, pct))+'%'; }, 150 + idx*120);
   });
 
-  // prepare projects for flipping and back content with links
+  // prepare projects for flipping and back content with links/descriptions
   document.querySelectorAll('.project').forEach((p, idx)=>{
     // build inner wrapper only once
     if(!p.querySelector('.project-inner')){
       const inner = document.createElement('div'); inner.className='project-inner';
-      while(p.firstChild) inner.appendChild(p.firstChild);
-      p.appendChild(inner);
-      // back side with actionable links
+      // front content (existing)
+      const front = document.createElement('div'); front.className='project-front';
+      // move current children that are not .thumb into front
+      const thumb = p.querySelector('.thumb');
+      const rest = Array.from(p.children).filter(ch=>ch!==thumb);
+      // append thumb then front inside inner
+      if(thumb) inner.appendChild(thumb);
+      rest.forEach(r=> front.appendChild(r));
+      inner.appendChild(front);
+
+      // back side with project description + links
       const back = document.createElement('div'); back.className='project-back';
-      const t = document.createElement('strong'); t.textContent = 'Project details';
-      const d = document.createElement('p'); d.style.margin='0'; d.style.color='var(--muted)'; d.style.fontSize='13px'; d.textContent = 'Click to flip — view repo or demo.';
-      const links = document.createElement('div'); links.style.marginTop='8px';
-      const repo = document.createElement('a'); repo.className='btn'; repo.href='https://github.com/PrabalDhar14'; repo.target='_blank'; repo.textContent='View repo';
-      repo.style.display='inline-block'; repo.style.marginRight='8px';
-      links.appendChild(repo);
-      back.appendChild(t); back.appendChild(d); back.appendChild(links);
+      const title = document.createElement('strong'); title.textContent = p.dataset.title || 'Project details';
+      const desc = document.createElement('p'); desc.style.margin='0'; desc.style.color='var(--muted)'; desc.style.fontSize='13px';
+      desc.textContent = p.dataset.desc || 'Detailed project description.';
+      const links = document.createElement('div'); links.style.marginTop='10px';
+
+      // repo link if present
+      if(p.dataset.repo){
+        const repo = document.createElement('a'); repo.className='btn'; repo.href=p.dataset.repo; repo.target='_blank'; repo.rel='noopener'; repo.textContent='View repo';
+        repo.style.marginRight='8px'; links.appendChild(repo);
+      }
+      // optional demo link
+      if(p.dataset.demo){
+        const demo = document.createElement('a'); demo.className='btn primary'; demo.href=p.dataset.demo; demo.target='_blank'; demo.rel='noopener'; demo.textContent='View demo';
+        links.appendChild(demo);
+      }
+
+      back.appendChild(title); back.appendChild(desc); back.appendChild(links);
+
       inner.appendChild(back);
+      p.appendChild(inner);
     }
 
     // click toggles flip; ignore clicks on links
     p.addEventListener('click', (ev)=>{ if(ev.target.tagName==='A') return; p.classList.toggle('flipped'); });
+
+    // keyboard accessibility
+    p.tabIndex = 0;
+    p.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); p.classList.toggle('flipped'); } });
   });
 
   // particle background (lighter, fewer particles)
@@ -238,8 +306,6 @@ document.addEventListener('DOMContentLoaded', function(){
   // allow ESC to close flipped cards
   window.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ document.querySelectorAll('.project.flipped').forEach(p=>p.classList.remove('flipped')); } });
 
-  // accessibility: make projects focusable
-  document.querySelectorAll('.project').forEach(p=>{ p.tabIndex = 0; p.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); p.classList.toggle('flipped'); } }); });
 });
 </script>
 
