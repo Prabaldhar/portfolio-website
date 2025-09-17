@@ -10,260 +10,168 @@
   <style>
     :root{
       --bg:#020617; --panel:#071022; --muted:#9aa4b2; --accent:#7c3aed; --accent-2:#06b6d4; --neon: #83f0ff;
-      --glass: rgba(255,255,255,0.03); --card-radius:12px; --max-width:1100px; --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace;
+      --glass: rgba(255,255,255,0.03); --card-radius:12px; --max-width:1100px; --mono: 'JetBrains Mono', monospace;
       --gap:18px; --pad:20px;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;background:radial-gradient(900px 400px at 10% 10%, rgba(124,58,237,0.06), transparent), linear-gradient(180deg,var(--bg) 0%, #041226 100%);color:#e6eef6;-webkit-font-smoothing:antialiased}
-    a{color:inherit}
+    *{box-sizing:border-box;}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;background:radial-gradient(900px 400px at 10% 10%, rgba(124,58,237,0.06), transparent), linear-gradient(180deg,var(--bg) 0%, #041226 100%);color:#e6eef6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+    a{color:inherit;text-decoration:none}
     .container{max-width:var(--max-width);margin:20px auto;padding:var(--pad);position:relative;z-index:2}
 
-    /* Background */
-    .circuit-bg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.12}
+    /* Background circuit */
+    .circuit-bg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.1;animation:moveBg 40s linear infinite alternate;}
+    @keyframes moveBg {from{transform:translateY(0)} to{transform:translateY(-20px)}}
 
     /* Header */
     header{display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .brand{display:flex;align-items:center;gap:12px}
-    .avatar{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:900;color:#031124;font-size:16px;flex-shrink:0}
-    .brand h1{margin:0;font-size:16px}
-    nav{display:flex;gap:8px;align-items:center}
-    nav a{padding:8px 10px;border-radius:10px;color:var(--muted);text-decoration:none;font-weight:700;letter-spacing:0.3px;font-size:14px}
-    nav a.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021124}
-
-    /* mobile menu button */
-    .menu-btn{display:none;background:transparent;border:1px solid rgba(255,255,255,0.03);padding:8px;border-radius:8px;color:var(--muted)}
+    .brand{display:flex;align-items:center;gap:12px;transform-style:preserve-3d;}
+    .avatar{width:56px;height:56px;border-radius:50%;overflow:hidden;box-shadow:0 0 20px rgba(124,58,237,0.4);transition:transform .3s ease;}
+    .avatar:hover{transform:rotateY(15deg) scale(1.05)}
+    .brand h1{margin:0;font-size:16px;}
+    nav{display:flex;gap:8px;align-items:center;}
+    nav a{padding:8px 10px;border-radius:10px;color:var(--muted);font-weight:700;font-size:14px;transition:color .3s ease, transform .3s ease;}
+    nav a:hover{color:#fff;transform:translateY(-2px)}
+    nav a.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021124;}
 
     /* Hero */
-    .hero{display:grid;grid-template-columns:1fr;gap:var(--gap);margin-top:18px}
-    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.008));border-radius:var(--card-radius);padding:18px;box-shadow:0 12px 30px rgba(2,6,23,0.6);backdrop-filter: blur(6px)}
-    .title{font-size:26px;margin:0;line-height:1.08}
-    .muted{color:var(--muted);font-size:14px}
+    .hero{display:grid;grid-template-columns:1fr;gap:var(--gap);margin-top:18px;perspective:1200px;}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.008));border-radius:var(--card-radius);padding:18px;box-shadow:0 12px 30px rgba(2,6,23,0.6);backdrop-filter: blur(6px);transition:transform .3s ease, box-shadow .3s ease;transform-style:preserve-3d;}
+    .card:hover{transform:translateY(-8px) rotateX(4deg) rotateY(-4deg);box-shadow:0 20px 40px rgba(124,58,237,0.4)}
+    .title{font-size:26px;margin:0;line-height:1.2}
 
-    /* Terminal/code */
-    .terminal{background:#020617;border-radius:10px;padding:12px;font-family:var(--mono);color:#bfe9ff;font-size:13px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.02)}
-    .term-row{display:flex;gap:8px;align-items:center}
-    .prompt{color:#8be9ff}
-    .cmd{color:#c9f1ff}
-    .blink{display:inline-block;width:8px;height:16px;background:var(--accent);margin-left:6px;vertical-align:bottom;animation:blink 1s steps(2) infinite}
+    /* Terminal */
+    .terminal{background:#020617;border-radius:10px;padding:12px;font-family:var(--mono);color:#bfe9ff;font-size:13px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.02);margin-top:14px;}
+    .blink{display:inline-block;width:8px;height:16px;background:var(--accent);margin-left:6px;animation:blink 1s steps(2) infinite}
+    @keyframes blink{50%{opacity:0}}
 
     /* Skills */
     .skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:8px}
-    .skill{padding:10px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);font-weight:700;color:var(--muted);display:flex;align-items:center;gap:10px;font-size:14px}
-    .skill .dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(180deg,var(--accent),var(--accent-2))}
+    .skill{padding:10px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);font-weight:700;color:var(--muted);display:flex;align-items:center;gap:10px;transition:transform .3s ease, box-shadow .3s ease;}
+    .skill:hover{transform:scale(1.05);box-shadow:0 0 15px rgba(124,58,237,0.3)}
 
     /* Projects */
-    .projects{display:grid;grid-template-columns:1fr;gap:14px;margin-top:16px}
-    .project{display:grid;grid-template-columns:100px 1fr;gap:12px;padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(10,12,20,0.5), rgba(255,255,255,0.01));border:1px solid rgba(124,58,237,0.06);align-items:start;overflow:hidden}
-    .thumb{height:84px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:#031124;font-weight:900;font-family:var(--mono);font-size:18px}
-    .project h3{margin:0;font-size:15px}
-    .project p{margin:6px 0 0 0;color:var(--muted);font-size:13px}
-    .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-    .tag{padding:6px 8px;border-radius:999px;background:rgba(255,255,255,0.02);font-weight:700;color:var(--muted);font-size:12px}
+    .projects{display:grid;grid-template-columns:1fr;gap:14px;margin-top:16px;}
+    .project{display:grid;grid-template-columns:100px 1fr;gap:12px;padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(10,12,20,0.5), rgba(255,255,255,0.01));border:1px solid rgba(124,58,237,0.06);transition:transform .3s ease, box-shadow .3s ease;}
+    .project:hover{transform:translateY(-8px) rotateY(5deg);box-shadow:0 20px 35px rgba(124,58,237,0.4)}
+    .thumb{height:84px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:900;font-family:var(--mono);font-size:18px;color:#021124;}
 
-    .btn{padding:10px 12px;border-radius:10px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));text-decoration:none;color:var(--muted);font-weight:800;border:1px solid rgba(255,255,255,0.02);display:inline-flex;align-items:center;gap:8px}
+    .btn{padding:10px 12px;border-radius:10px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));color:var(--muted);font-weight:800;transition:transform .2s ease, box-shadow .3s ease;}
+    .btn:hover{transform:translateY(-3px);box-shadow:0 0 15px rgba(124,58,237,0.5)}
     .btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021124;border:none}
 
-    /* Download & send buttons responsive */
-    .cv-download, .send-btn{display:inline-flex;align-items:center;justify-content:center;white-space:nowrap}
-    @media(max-width:760px){
-      .cv-download, .send-btn{width:100%;padding:12px 16px;font-size:15px}
-      .title{font-size:20px}
-      .avatar{width:50px;height:50px}
-      .container{padding:14px}
-    }
+    footer{margin-top:18px;color:var(--muted);font-size:13px;text-align:center}
 
-    /* Hover */
-    .project:hover{transform:translateY(-6px);transition:transform .18s ease, box-shadow .18s ease;box-shadow:0 18px 50px rgba(10,12,20,0.7)}
-
-    /* Desktop layout */
+    /* Responsive */
     @media(min-width:900px){
       .hero{grid-template-columns:1fr 360px}
       .projects{grid-template-columns:repeat(2,1fr)}
-      .project{grid-template-columns:140px 1fr}
-      .title{font-size:32px}
-      .menu-btn{display:none}
     }
+  
 
-    /* Mobile header */
-    @media(max-width:899px){
-      nav{display:none}
-      .menu-btn{display:inline-flex}
-      .brand h1{font-size:16px}
-    }
+/* ===== Refined Interactive Animations (improved visuals) ===== */
 
-    footer{margin-top:18px;color:var(--muted);font-size:13px;text-align:center}
-  </style>
+/* skill bars */
+.skill{position:relative;overflow:hidden}
+.skill .bar{position:absolute;left:0;top:0;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));opacity:0.10;z-index:0;transition:width 1.2s cubic-bezier(.2,.9,.3,1)}
+.skill .label{position:relative;z-index:1}
+.skill[data-percent]::after{content:attr(data-percent) '%';position:absolute;right:10px;top:50%;transform:translateY(-50%);font-weight:800;color:rgba(255,255,255,0.9);font-family:var(--mono);font-size:12px}
+
+/* project flip (only on desktop hover shows hint) */
+.project{perspective:900px;cursor:pointer}
+.project-inner{transition:transform .65s cubic-bezier(.22,.9,.3,1);transform-style:preserve-3d;position:relative}
+.project-front, .project-back{backface-visibility:hidden;border-radius:8px}
+.project-back{position:absolute;inset:0;padding:14px;background:linear-gradient(180deg, rgba(2,6,23,0.9), rgba(255,255,255,0.02));transform:rotateY(180deg);display:flex;flex-direction:column;gap:8px}
+.project.flipped .project-inner{transform:rotateY(180deg)}
+.project .hint{font-size:12px;color:var(--muted);margin-top:8px}
+
+/* tag tooltip */
+.tag{position:relative;cursor:default}
+.tag[data-tip]:hover::after{content:attr(data-tip);position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + 8px);background:#021124;color:#e6eef6;padding:6px 8px;border-radius:6px;font-size:12px;white-space:nowrap;box-shadow:0 6px 18px rgba(2,6,23,0.6)}
+
+/* small card shimmer for interactivity */
+.card:hover{filter:brightness(1.02)}
+
+/* particle canvas */
+#particle-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.04}
+
+/* smoother reveal */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease, transform .6s cubic-bezier(.2,.9,.3,1);will-change:opacity,transform}
+.reveal.visible{opacity:1;transform:none}
+
+</style>
 </head>
 <body>
   <div class="circuit-bg" aria-hidden="true">
-    <svg viewBox="0 0 1600 900" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><g stroke="#7c3aed" stroke-width="1" fill="none" opacity="0.12"><path d="M40 120 H560 M80 80 V340"/><path d="M260 20 V240 H420"/><path d="M900 50 H1400 V120 H860"/><path d="M1200 400 V760 H1400"/></g></svg>
+    <svg viewBox="0 0 1600 900" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><g stroke="#7c3aed" stroke-width="1" fill="none"><path d="M40 120 H560 M80 80 V340"/><path d="M260 20 V240 H420"/><path d="M900 50 H1400 V120 H860"/><path d="M1200 400 V760 H1400"/></g></svg>
   </div>
 
   <div class="container">
     <header>
       <div class="brand">
-        <div class="avatar">
-  <img src="profile.jpeg" alt="Prabal Dhar" 
-       style="width:100%;height:100%;border-radius:12px;object-fit:cover;">
-</div>
+        <div class="avatar"><img src="profile.jpeg" alt="Prabal Dhar" style="width:100%;height:100%;object-fit:cover;"></div>
         <div>
           <h1>Prabal Dhar</h1>
           <div class="muted">Computer Science & Data Science</div>
         </div>
       </div>
-
-      <nav id="main-nav">
+      <nav>
         <a href="#about">About</a>
         <a href="#projects">Projects</a>
         <a href="#skills">Skills</a>
         <a class="primary" href="#contact">Contact</a>
       </nav>
-
-      <button class="menu-btn" id="menu-toggle" aria-label="Open menu">☰</button>
     </header>
 
     <main>
       <section class="hero">
         <div class="card">
-          <div style="display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap">
-            <div style="flex:1;min-width:220px">
-              <div class="title">Hi — I’m Prabal. Enthusiastic and motivated Computer Science Engineering graduate with a keen interest in machine learning and Deep learning.</div>
-              <p class="muted" style="margin-top:8px">B.Tech (Honours) — CSE (Data Science).</p>
+          <h2 class="title">Hi — I’m Prabal. Enthusiastic Computer Science Engineering graduate passionate about Machine Learning & Deep Learning.</h2>
+          <p class="muted">B.Tech (Honours) — CSE (Data Science).</p>
 
-              <div style="display:flex;gap:12px;margin-top:14px;align-items:center;flex-wrap:wrap">
-               
+          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px">
+            <a class="btn" href="https://github.com/PrabalDhar14" target="_blank">GitHub</a>
+            <a class="btn primary" href="https://drive.google.com/uc?export=download&id=1QYk-l2amT0ZbYDbHel9vh91KoG34DzAq" target="_blank">📄 Download CV</a>
+          </div>
 
-               <div style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;min-width:160px">
-  <a class="btn" href="https://github.com/PrabalDhar14" target="_blank">GitHub</a>
-  <a class="btn primary download-cv" 
-     href="https://drive.google.com/file/d/1QYk-l2amT0ZbYDbHel9vh91KoG34DzAq/view?usp=drive_link" 
-     target="_blank" rel="noopener" 
-     aria-label="Download CV (Google Drive)">📄 Download CV</a>
-</div>
-</div>
-
-<!-- Terminal block -->
-<div style="margin-top:14px" class="terminal">
-  <div style="display:flex;gap:6px;margin-bottom:8px">
-    <span style="width:10px;height:10px;border-radius:50%;background:#ff5f56;display:inline-block"></span>
-    <span style="width:10px;height:10px;border-radius:50%;background:#ffbd2e;display:inline-block"></span>
-    <span style="width:10px;height:10px;border-radius:50%;background:#27c93f;display:inline-block"></span>
-  </div>
-  <div class="term-row"><span class="prompt">$</span><span class="cmd">git clone github.com/PrabalDhar14/glaucoma && cd glaucoma</span></div>
-  <div class="term-row"><span class="prompt">$</span><span class="cmd">python train.py --model efficientnet_b3 --epochs 40<span class="blink"></span></span></div>
-</div>
-
-
-            <aside style="width:320px;min-width:220px;flex:1">
-              <div class="card" style="padding:14px">
-                <div style="font-weight:900">Contact</div>
-                <div class="muted" style="margin-top:8px">prabaldharofficial@gmail.com<br/>+880 1854 300237<br/>Chattogram, Bangladesh</div>
-                <hr style="margin:12px 0;border:none;border-top:1px solid rgba(255,255,255,0.03)" />
-                <div style="font-weight:800">Education</div>
-                <div class="muted" style="font-size:13px;margin-top:6px">B.Tech (Honours) — CSE (Data Science) — JAIN Deemed To Be University (2021–2025)</div>
-              </div>
-            </aside>
+          <div class="terminal">
+            <div><span class="prompt">$</span> git clone github.com/PrabalDhar14/glaucoma && cd glaucoma</div>
+            <div><span class="prompt">$</span> python train.py --model efficientnet_b3 --epochs 40<span class="blink"></span></div>
           </div>
         </div>
       </section>
 
-      <section id="skills" style="margin-top:18px">
+      <section id="skills">
         <div class="card">
-          <div style="display:flex;justify-content:space-between;align-items:center"><h2 style="margin:0">Technical Skills</h2><div class="muted">CS-focused </div></div>
+          <h2>Technical Skills</h2>
           <div class="skills">
-            <div class="skill"><span class="dot"></span> Python <span style="margin-left:auto" class="muted">good</span></div>
-            <div class="skill"><span class="dot"></span> PyTorch <span style="margin-left:auto" class="muted">practical</span></div>
-            <div class="skill"><span class="dot"></span> TensorFlow <span style="margin-left:auto" class="muted">good</span></div>
-            <div class="skill"><span class="dot"></span> Computer Vision <span style="margin-left:auto" class="muted">moderate</span></div>
-            <div class="skill"><span class="dot"></span> Deep Learning <span style="margin-left:auto" class="muted">strong</span></div>
-            <div class="skill"><span class="dot"></span> MLOps  <span style="margin-left:auto" class="muted">working</span></div>
-            <div class="skill"><span class="dot"></span> Flask  <span style="margin-left:auto" class="muted">working</span></div>
-            <div class="skill"><span class="dot"></span> SQL & NoSQL <span style="margin-left:auto" class="muted">MySQL/Mongo</span></div>
-            <div class="skill"><span class="dot"></span> Data Viz & EDA <span style="margin-left:auto" class="muted">PowerBI</span></div>
-            <div class="skill"><span class="dot"></span> Algorithms & DS <span style="margin-left:auto" class="muted">moderate</span></div>
+            <div class="skill"><span class="dot"></span>Python</div>
+            <div class="skill"><span class="dot"></span>PyTorch</div>
+            <div class="skill"><span class="dot"></span>TensorFlow</div>
+            <div class="skill"><span class="dot"></span>Computer Vision</div>
+            <div class="skill"><span class="dot"></span>Deep Learning</div>
+            <div class="skill"><span class="dot"></span>MLOps</div>
           </div>
         </div>
       </section>
 
-      <section id="projects" style="margin-top:18px">
-        <div style="display:flex;justify-content:space-between;align-items:center"><h2 style="margin:0">Selected Projects — CS Edition</h2><div class="muted">hover cards for quick details</div></div>
+      <section id="projects">
+        <h2>Projects</h2>
         <div class="projects">
-
           <div class="project">
             <div class="thumb">GLU</div>
-            <div>
-              <h3>Hybrid CNN — Automated Glaucoma Detection</h3>
-              <p>EfficientNetB3 backbone with custom classification heads. Full training , augmentation, model checkpointing, and Flask demo.</p>
-              <div class="tags"><div class="tag">PyTorch</div><div class="tag">Computer Vision</div><div class="tag">Flask</div></div>
-              <div class="actions" style="margin-top:8px"><a class="btn primary" href="https://github.com/PrabalDhar14" target="_blank">View Repo</a></div>
-            </div>
+            <div><h3>Hybrid CNN — Glaucoma Detection</h3><p>EfficientNetB3 with full pipeline and Flask demo.</p></div>
           </div>
-
           <div class="project">
             <div class="thumb">IRIS</div>
-            <div>
-              <h3>Iris Flower Classification — Clear Experiments</h3>
-              <p>Focused on reproducibility: deterministic seeds, cross-validation, hyperparameter notebooks, and clear evaluation visuals.</p>
-              <div class="tags"><div class="tag">scikit-learn</div><div class="tag">EDA</div><div class="tag">Modeling</div></div>
-              <div class="actions" style="margin-top:8px"><a class="btn primary" href="https://github.com/PrabalDhar14" target="_blank">View Repo</a></div>
-            </div>
+            <div><h3>Iris Flower Classification</h3><p>Reproducible ML experiments with cross-validation.</p></div>
           </div>
-
-          <div class="project">
-            <div class="thumb">NLP</div>
-            <div>
-              <h3>Women’s Clothing Reviews — Sentiment Pipelines</h3>
-              <p>TF-IDF + MultinomialNB baseline, with experiments in fastText embeddings and explainable evaluation for production readiness.</p>
-              <div class="tags"><div class="tag">NLP</div><div class="tag">Pipelines</div><div class="tag">Evaluation</div></div>
-              <div class="actions" style="margin-top:8px"><a class="btn primary" href="https://github.com/PrabalDhar14" target="_blank">View Repo</a></div>
-            </div>
-          </div>
-
-          <div class="project">
-            <div class="thumb">TS</div>
-            <div>
-              <h3>Energy Consumption — Forecasting & Analysis</h3>
-              <p>Feature-window engineering, error analysis, and an explainable forecasting pipeline suitable for integration into dashboards.</p>
-              <div class="tags"><div class="tag">Time Series</div><div class="tag">Forecasting</div><div class="tag">Pandas</div></div>
-              <div class="actions" style="margin-top:8px"><a class="btn primary" href="https://github.com/PrabalDhar14" target="_blank">View Repo</a></div>
-            </div>
-          </div>
-
         </div>
       </section>
 
-      <section style="margin-top:18px">
+      <section id="contact">
         <div class="card">
-          <div style="display:flex;justify-content:space-between;align-items:center"><div>
-            <h3 style="margin:0">Publications & Thesis</h3>
-            <div class="muted" style="margin-top:8px"><strong>Hybrid CNN Approach for Automated Glaucoma Detection and Severity Grading</strong> — Undergraduate thesis. Accepted for oral presentation at IEEE ICBMESH 2025.
-            </div>
-          </div>
-          <div style="width:180px;text-align:right">
-            <div style="font-weight:900;font-family:var(--mono);font-size:18px;color:var(--neon)">ICBMESH · 2025</div>
-          </div></div>
-        </div>
-      </section>
-
-      <section id="contact" style="margin-top:18px">
-        <div class="card">
-          <h2 style="margin:0">Get in touch</h2>
-          <p class="muted">Open to internships, research collaborations, and junior ML/AI roles. Email me or use the quick contact form below.</p>
-          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px">
-            <a class="btn primary" href="mailto:prabaldharofficial@gmail.com">Email me directly — prabaldharofficial@gmail.com</a>
-            <a class="btn" href="tel:+8801854300237">Call: +880 1854 300237</a>
-            <a class="btn" href="https://github.com/PrabalDhar14" target="_blank">GitHub</a>
-          </div>
-
-          <form id="contact-form" style="display:flex;flex-direction:column;gap:8px">
-            <input id="cf-name" placeholder="Your name" required style="padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit" />
-            <input id="cf-email" type="email" placeholder="Your email" required style="padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit" />
-            <textarea id="cf-message" placeholder="Message" rows="4" style="padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit"></textarea>
-            <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <button class="btn primary send-btn" id="send-mail" type="button">Send </button>
-              <a class="btn" href="mailto:prabaldharofficial@gmail.com">Or email directly</a>
-            </div>
-          </form>
+          <h2>Get in touch</h2>
+          <a class="btn primary" href="mailto:prabaldharofficial@gmail.com">📧 Email Me</a>
         </div>
       </section>
 
@@ -273,37 +181,67 @@
     </main>
   </div>
 
-  <script>
-    // mobile menu toggle
-    const menuToggle = document.getElementById('menu-toggle');
-    const mainNav = document.getElementById('main-nav');
-    menuToggle && menuToggle.addEventListener('click', ()=>{
-      if(mainNav.style.display === 'flex') mainNav.style.display = 'none';
-      else mainNav.style.display = 'flex';
-    });
 
-    // smooth anchor scrolling
-    document.querySelectorAll('a[href^="#"]').forEach(a=>{
-      a.addEventListener('click',e=>{e.preventDefault();const id=a.getAttribute('href');if(!document.querySelector(id))return;document.querySelector(id).scrollIntoView({behavior:'smooth',block:'start'});});
-    })
+<!-- Interactive JS: refined skill bars, flip cards, particles, reveal -->
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  // reveal observer (stagger)
+  const reveals = document.querySelectorAll('.card, .project');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+  },{threshold:0.12});
+  reveals.forEach((el,i)=>{ el.classList.add('reveal'); el.style.transitionDelay = (i*80)+'ms'; io.observe(el); });
 
-    // Send mail with form fields
-    document.getElementById('send-mail')?.addEventListener('click', function () {
-      const name = document.getElementById('cf-name').value || '';
-      const email = document.getElementById('cf-email').value || '';
-      const msg  = document.getElementById('cf-message').value || '';
-      const subject = encodeURIComponent('Portfolio contact from ' + (name || email || 'Website visitor'));
-      const body = encodeURIComponent(
-        (name ? 'Name: ' + name + '
-' : '') +
-        (email ? 'Email: ' + email + '
+  // animate skill bars (use data-percent attribute if present)
+  document.querySelectorAll('.skill').forEach((s, idx)=>{
+    const pct = Number(s.dataset.percent || 80);
+    const bar = document.createElement('div'); bar.className='bar'; s.appendChild(bar);
+    const label = document.createElement('div'); label.className='label'; // wrap existing text
+    while(s.firstChild && !s.firstChild.classList){ label.appendChild(s.firstChild); }
+    s.appendChild(label);
+    // staggered fill
+    setTimeout(()=>{ bar.style.width = Math.max(6, Math.min(100, pct))+'%'; }, 150 + idx*120);
+  });
 
-' : '') +
-        'Message:
-' + msg
-      );
-      window.location.href = `mailto:prabaldharofficial@gmail.com?subject=${subject}&body=${body}`;
-    });
-  </script>
+  // prepare projects for flipping and back content with links
+  document.querySelectorAll('.project').forEach((p, idx)=>{
+    // build inner wrapper only once
+    if(!p.querySelector('.project-inner')){
+      const inner = document.createElement('div'); inner.className='project-inner';
+      while(p.firstChild) inner.appendChild(p.firstChild);
+      p.appendChild(inner);
+      // back side with actionable links
+      const back = document.createElement('div'); back.className='project-back';
+      const t = document.createElement('strong'); t.textContent = 'Project details';
+      const d = document.createElement('p'); d.style.margin='0'; d.style.color='var(--muted)'; d.style.fontSize='13px'; d.textContent = 'Click to flip — view repo or demo.';
+      const links = document.createElement('div'); links.style.marginTop='8px';
+      const repo = document.createElement('a'); repo.className='btn'; repo.href='https://github.com/PrabalDhar14'; repo.target='_blank'; repo.textContent='View repo';
+      repo.style.display='inline-block'; repo.style.marginRight='8px';
+      links.appendChild(repo);
+      back.appendChild(t); back.appendChild(d); back.appendChild(links);
+      inner.appendChild(back);
+    }
+
+    // click toggles flip; ignore clicks on links
+    p.addEventListener('click', (ev)=>{ if(ev.target.tagName==='A') return; p.classList.toggle('flipped'); });
+  });
+
+  // particle background (lighter, fewer particles)
+  const canvas = document.getElementById('particle-canvas') || (function(){ const c=document.createElement('canvas'); c.id='particle-canvas'; document.body.appendChild(c); return c; })();
+  const ctx = canvas.getContext('2d'); function resize(){ canvas.width = innerWidth; canvas.height = innerHeight; }
+  window.addEventListener('resize', resize); resize();
+  const COUNT = 35; // fewer particles
+  const particles = Array.from({length:COUNT}).map(()=>({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*1.6 + 0.4, vx:(Math.random()-0.5)*0.25, vy:(Math.random()-0.5)*0.25 }));
+  function tick(){ ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; if(p.x<0) p.x=canvas.width; if(p.x>canvas.width) p.x=0; if(p.y<0) p.y=canvas.height; if(p.y>canvas.height) p.y=0; ctx.beginPath(); ctx.fillStyle='rgba(124,58,237,0.7)'; ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill(); }); requestAnimationFrame(tick); }
+  tick();
+
+  // allow ESC to close flipped cards
+  window.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ document.querySelectorAll('.project.flipped').forEach(p=>p.classList.remove('flipped')); } });
+
+  // accessibility: make projects focusable
+  document.querySelectorAll('.project').forEach(p=>{ p.tabIndex = 0; p.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); p.classList.toggle('flipped'); } }); });
+});
+</script>
+
 </body>
 </html>
