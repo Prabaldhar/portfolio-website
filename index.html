@@ -1,334 +1,515 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Prabal Dhar — Portfolio</title>
-  <meta name="description" content="Prabal Dhar — Computer Science & Data Science graduate. Machine Learning, Deep Learning." />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg:#020617; --panel:#071022; --muted:#9aa4b2; --accent:#7c3aed; --accent-2:#06b6d4; --neon: #83f0ff;
-      --glass: rgba(255,255,255,0.03); --card-radius:12px; --max-width:1100px; --mono: 'JetBrains Mono', monospace;
-      --gap:18px; --pad:20px;
-    }
-    *{box-sizing:border-box;}
-    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;background:radial-gradient(900px 400px at 10% 10%, rgba(124,58,237,0.06), transparent), linear-gradient(180deg,var(--bg) 0%, #041226 100%);color:#e6eef6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
-    a{color:inherit;text-decoration:none}
-    /* ensure no bottom whitespace from particle canvas and pin footer */
-    body{display:flex;flex-direction:column;min-height:100vh;}
-    main{flex:1}
-    .container{max-width:var(--max-width);margin:20px auto;padding:var(--pad);position:relative;z-index:2}
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Prabal Dhar — Data Science &amp; Explainable AI</title>
+<meta name="description" content="Prabal Dhar — Master of IT (Data Analysis) candidate at Griffith University, researching EEG-based visual decoding and explainable deep learning." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,500;0,9..144,600;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#172029;
+    --paper:#f4f5f1;
+    --panel:#ffffff;
+    --line: rgba(23,32,41,0.14);
+    --signal:#1f6f6a;
+    --signal-ink:#0f4542;
+    --highlight:#a97324;
+    --muted:#5c6670;
+    --max: 760px;
+    --pad: clamp(20px, 5vw, 48px);
+  }
 
-    /* Background circuit */
-    .circuit-bg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.1;animation:moveBg 40s linear infinite alternate;}
-    @keyframes moveBg {from{transform:translateY(0)} to{transform:translateY(-20px)}}
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces', Georgia, serif;
+    font-weight:600;
+    line-height:1.12;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  a{color:inherit;}
+  .mono{font-family:'IBM Plex Mono', ui-monospace, monospace;}
 
-    /* Header */
-    header{display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .brand{display:flex;align-items:center;gap:12px;transform-style:preserve-3d;}
-    .avatar{width:56px;height:56px;border-radius:50%;overflow:hidden;box-shadow:0 0 20px rgba(124,58,237,0.4);transition:transform .3s ease;}
-    .avatar:hover{transform:rotateY(15deg) scale(1.05)}
-    .brand h1{margin:0;font-size:16px;}
-    nav{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-    nav a{padding:8px 10px;border-radius:10px;color:var(--muted);font-weight:700;font-size:14px;transition:color .3s ease, transform .3s ease;}
-    nav a:hover{color:#fff;transform:translateY(-2px)}
-    nav a.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021124;}
+  .skip-link{
+    position:absolute; left:-999px; top:auto;
+    background:var(--ink); color:var(--paper); padding:10px 16px; border-radius:4px; z-index:100;
+  }
+  .skip-link:focus{ left:16px; top:16px; }
 
-    /* Hero */
-    .hero{display:grid;grid-template-columns:1fr;gap:var(--gap);margin-top:18px;perspective:1200px;}
-    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.008));border-radius:var(--card-radius);padding:18px;box-shadow:0 12px 30px rgba(2,6,23,0.6);backdrop-filter: blur(6px);transition:transform .3s ease, box-shadow .3s ease;transform-style:preserve-3d;}
-    .card:hover{transform:translateY(-8px) rotateX(4deg) rotateY(-4deg);box-shadow:0 20px 40px rgba(124,58,237,0.4)}
-    .title{font-size:26px;margin:0;line-height:1.2}
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--signal);
+    outline-offset:3px;
+    border-radius:2px;
+  }
 
-    /* Terminal */
-    .terminal{background:#020617;border-radius:10px;padding:12px;font-family:var(--mono);color:#bfe9ff;font-size:13px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.02);margin-top:14px;}
-    .blink{display:inline-block;width:8px;height:16px;background:var(--accent);margin-left:6px;animation:blink 1s steps(2) infinite}
-    @keyframes blink{50%{opacity:0}}
+  /* ---------- Header ---------- */
+  .site-header{
+    position:sticky; top:0; z-index:20;
+    background:rgba(244,245,241,0.86);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+    transition:box-shadow .3s ease;
+  }
+  .site-header.is-scrolled{
+    box-shadow:0 1px 0 rgba(23,32,41,0.05), 0 12px 24px -18px rgba(23,32,41,0.35);
+  }
+  .site-header__inner{
+    max-width:var(--max); margin:0 auto; padding:16px var(--pad);
+    display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  }
+  .brand{
+    font-family:'IBM Plex Mono', monospace; font-size:13px; letter-spacing:0.09em;
+    text-decoration:none; font-weight:500;
+  }
+  nav.site-nav{ display:flex; gap:20px; align-items:center; flex-wrap:wrap; }
+  nav.site-nav a{
+    position:relative;
+    font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:0.06em;
+    text-decoration:none; color:var(--muted); text-transform:uppercase;
+    padding-bottom:3px;
+  }
+  nav.site-nav a::after{
+    content:''; position:absolute; left:0; right:0; bottom:0; height:1px;
+    background:var(--signal); transform:scaleX(0); transform-origin:left;
+    transition:transform .25s cubic-bezier(.22,.9,.3,1);
+  }
+  nav.site-nav a:hover{ color:var(--ink); }
+  nav.site-nav a:hover::after{ transform:scaleX(1); }
+  nav.site-nav a.cv-link{ color:var(--signal-ink); font-weight:500; }
 
-    /* Skills */
-    .skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:8px}
-    .skill{padding:10px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);font-weight:700;color:var(--muted);display:flex;align-items:center;gap:10px;transition:transform .3s ease, box-shadow .3s ease;position:relative;overflow:hidden}
-    .skill:hover{transform:scale(1.05);box-shadow:0 0 15px rgba(124,58,237,0.3)}
-    .skill .bar{position:absolute;left:0;top:0;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));opacity:0.08;z-index:0;transition:width 1.2s cubic-bezier(.2,.9,.3,1)}
-    .skill .label{position:relative;z-index:1}
+  /* ---------- Layout helpers ---------- */
+  .section{ max-width:var(--max); margin:0 auto; padding:64px var(--pad); scroll-margin-top:84px; }
+  .section + .section{ padding-top:0; }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:0.12em;
+    color:var(--highlight); text-transform:uppercase; margin:0 0 14px;
+  }
+  .section h2{ font-size:clamp(1.4rem, 2.4vw, 1.7rem); margin-bottom:28px; }
+  p{ margin:0 0 1em; color:var(--ink); }
+  .lede{ color:var(--muted); }
 
-    /* Projects (increased visual size & spacing) */
-    .projects{display:grid;grid-template-columns:1fr;gap:18px;margin-top:18px;}
-    .project{perspective:900px;cursor:pointer}
-    .project-inner{transition:transform .65s cubic-bezier(.22,.9,.3,1);transform-style:preserve-3d;position:relative}
-    .project-front, .project-back{backface-visibility:hidden;border-radius:10px;overflow:hidden;padding:18px;background:linear-gradient(180deg, rgba(10,12,20,0.5), rgba(255,255,255,0.01));border:1px solid rgba(124,58,237,0.06)}
-    .project-front{display:grid;grid-template-columns:120px 1fr;gap:16px;align-items:center}
-    .project-back{position:absolute;inset:0;transform:rotateY(180deg);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:20px}
-    .project.flipped .project-inner{transform:rotateY(180deg)}
-    .thumb{height:110px;width:110px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:900;font-family:var(--mono);font-size:20px;color:#021124;flex-shrink:0}
+  /* ---------- Divider (signature waveform, animates in on scroll) ---------- */
+  .divider{ max-width:var(--max); margin:0 auto; padding:0 var(--pad); }
+  .divider svg{ width:100%; height:22px; display:block; }
+  .divider use{ stroke:var(--signal); opacity:0.45; }
+  .trace-line{ stroke-dasharray:1; stroke-dashoffset:1; transition:stroke-dashoffset 1.6s cubic-bezier(.22,.9,.3,1); }
+  .trace-line.in-view{ stroke-dashoffset:0; }
 
-    /* Buttons */
-    .btn{padding:10px 12px;border-radius:12px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));color:var(--muted);font-weight:800;transition:transform .18s ease, box-shadow .18s ease;display:inline-flex;align-items:center;gap:8px}
-    .btn:hover{transform:translateY(-3px);box-shadow:0 0 15px rgba(124,58,237,0.5)}
-    .btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021124;border:none;box-shadow:0 8px 30px rgba(124,58,237,0.12);padding:10px 16px}
+  /* ---------- Hero ---------- */
+  .hero{ position:relative; padding-top:88px; padding-bottom:70px; overflow:hidden; }
+  .hero__trace{
+    position:absolute; left:0; right:0; top:38%; width:100%; height:120px;
+    opacity:0.10; pointer-events:none; z-index:0;
+  }
+  .hero__trace use{ stroke:var(--ink); }
+  .hero__content{ position:relative; z-index:1; }
 
-    footer{margin-top:18px;color:var(--muted);font-size:13px;text-align:center}
+  .intro-badge{
+    width:52px; height:52px; border-radius:50%; border:1.5px solid var(--signal);
+    display:flex; align-items:center; justify-content:center; background:var(--panel);
+    font-family:'IBM Plex Mono', monospace; font-size:14px; letter-spacing:0.02em;
+    color:var(--signal-ink); margin-bottom:20px;
+  }
+  .hero h1{
+    font-size:clamp(2.4rem, 6.2vw, 4rem);
+    margin-bottom:10px;
+  }
+  .hero__role{
+    font-family:'IBM Plex Mono', monospace; font-size:14px; letter-spacing:0.02em;
+    color:var(--signal-ink); margin-bottom:22px;
+  }
+  .hero .lede{ max-width:56ch; font-size:1.05rem; margin-bottom:30px; }
 
-    /* Particle canvas - MUST be fixed and full viewport to avoid scroll gaps */
-    #particle-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0.04}
+  .hero-anim{ opacity:0; animation:fadeUp .7s cubic-bezier(.22,.9,.3,1) forwards; }
+  @keyframes fadeUp{ from{ opacity:0; transform:translateY(16px);} to{ opacity:1; transform:translateY(0);} }
 
-    /* Responsive */
-    @media(min-width:900px){
-      .hero{grid-template-columns:1fr 360px}
-      .projects{grid-template-columns:repeat(2,1fr)}
-    }
-    @media(max-width:760px){
-      .container{padding:14px}
-      .title{font-size:20px}
-      .project-front{grid-template-columns:84px 1fr}
-      .thumb{height:84px;width:84px;font-size:16px;border-radius:8px}
-      nav{gap:6px}
-      .btn.primary{padding:10px 12px}
-    }
+  .cta-row{ display:flex; flex-wrap:wrap; gap:12px; }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:11px 18px; border-radius:6px; font-size:14px; font-weight:500;
+    text-decoration:none; border:1px solid var(--line);
+    transition:transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;
+  }
+  .btn:hover{ transform:translateY(-2px); }
+  .btn.primary{ background:var(--signal); color:var(--paper); border-color:var(--signal); }
+  .btn.primary:hover{ background:var(--signal-ink); box-shadow:0 10px 22px -10px rgba(15,69,66,0.55); }
+  .btn.ghost{ background:transparent; color:var(--ink); }
+  .btn.ghost:hover{ border-color:var(--ink); background:rgba(23,32,41,0.04); }
 
-    /* smoother reveal */
-    .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease, transform .6s cubic-bezier(.2,.9,.3,1);will-change:opacity,transform}
-    .reveal.visible{opacity:1;transform:none}
+  /* ---------- Timeline / Publications grid ---------- */
+  .grid-row{
+    display:grid; grid-template-columns:130px 1fr; gap:20px 24px;
+    padding:18px 0; border-top:1px solid var(--line);
+  }
+  .grid-row:last-child{ border-bottom:1px solid var(--line); }
+  .grid-row + .grid-row{ transition-delay:.1s; }
+  .grid-row__tag{ font-size:12.5px; color:var(--muted); padding-top:2px; }
+  .grid-row__title{ font-family:'Fraunces', serif; font-weight:500; font-size:1.05rem; margin-bottom:4px; }
+  .grid-row__sub{ color:var(--muted); font-size:0.95rem; }
+  .grid-row__desc{ color:var(--ink); font-size:0.97rem; margin:0; }
+  .grid-row__desc.placeholder{ color:var(--muted); font-style:italic; }
 
-    /* typing helpers */
-    .typed-name{font-weight:900;font-family:var(--mono);display:inline-block}
-    .typed-role{display:block;color:var(--muted);font-weight:700;margin-top:6px}
-    .social-link{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:10px;background:rgba(255,255,255,0.02);font-weight:800;color:var(--muted)}
-    .social-link:hover{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021124}
-  </style>
+  @media (max-width:560px){
+    .grid-row{ grid-template-columns:1fr; gap:6px; }
+  }
+
+  /* ---------- Research callout ---------- */
+  .callout{
+    background:var(--panel); border:1px solid var(--line); border-radius:10px;
+    padding:26px 28px; margin-top:24px;
+    transition:box-shadow .3s ease, transform .3s ease;
+  }
+  .callout:hover{ box-shadow:0 16px 32px -22px rgba(23,32,41,0.4); transform:translateY(-2px); }
+  .callout .eyebrow{ margin-bottom:10px; }
+  .callout h3{ font-size:1.15rem; font-style:italic; font-weight:500; margin-bottom:16px; line-height:1.35; }
+  .callout ul{ margin:0; padding-left:18px; color:var(--ink); }
+  .callout li{ margin-bottom:6px; font-size:0.96rem; }
+
+  /* ---------- Projects ---------- */
+  .project{ border-top:1px solid var(--line); padding:32px 0; transition:transform .3s ease; }
+  .project:last-of-type{ border-bottom:1px solid var(--line); }
+  .project + .project{ transition-delay:.1s; }
+  .project__head{
+    display:flex; justify-content:space-between; align-items:baseline; gap:16px; flex-wrap:wrap; margin-bottom:6px;
+  }
+  .project h3{ font-size:1.25rem; }
+  .project__meta{ font-size:12px; color:var(--muted); letter-spacing:0.03em; }
+  .project__body{ display:grid; grid-template-columns:1fr auto; gap:24px; align-items:end; margin-top:12px; }
+  .project__body p{ margin:0; }
+  .project__stat{ text-align:right; white-space:nowrap; }
+  .project__stat .num{ font-family:'IBM Plex Mono', monospace; font-size:1.9rem; color:var(--signal-ink); font-weight:500; display:block; line-height:1; }
+  .project__stat .label{ font-size:11.5px; color:var(--muted); letter-spacing:0.04em; }
+  .project__link{ display:inline-block; margin-top:14px; font-size:13.5px; color:var(--signal-ink); text-decoration:none; border-bottom:1px solid var(--signal); transition:transform .18s ease, color .18s ease; }
+  .project__link:hover{ color:var(--signal); transform:translateX(3px); }
+  @media (max-width:560px){
+    .project__body{ grid-template-columns:1fr; }
+    .project__stat{ text-align:left; }
+  }
+  .in-progress{
+    margin-top:22px; padding-top:18px; border-top:1px dashed var(--line);
+    color:var(--muted); font-size:0.93rem;
+  }
+  .in-progress .eyebrow{ margin-bottom:8px; }
+
+  /* ---------- Skills ---------- */
+  .skill-group{ margin-bottom:22px; }
+  .skill-group h4{
+    font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:0.06em;
+    color:var(--muted); text-transform:uppercase; margin:0 0 10px; font-weight:500;
+  }
+  .tag-list{ display:flex; flex-wrap:wrap; gap:8px; }
+  .tag{
+    font-size:13.5px; padding:6px 12px; border:1px solid var(--line); border-radius:16px;
+    background:var(--panel); color:var(--ink);
+    transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+  }
+  .tag:hover{ transform:translateY(-2px); border-color:var(--signal); box-shadow:0 8px 16px -10px rgba(23,32,41,0.3); }
+
+  /* ---------- Contact / Footer ---------- */
+  .contact-links{ display:flex; flex-wrap:wrap; gap:12px; margin-top:22px; }
+  footer{
+    max-width:var(--max); margin:0 auto; padding:36px var(--pad) 64px;
+    color:var(--muted); font-size:12.5px; font-family:'IBM Plex Mono', monospace;
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
+  }
+
+  /* ---------- Reveal on scroll ---------- */
+  .reveal{ opacity:0; transform:translateY(16px); transition:opacity .6s cubic-bezier(.22,.9,.3,1), transform .6s cubic-bezier(.22,.9,.3,1); }
+  .reveal.visible{ opacity:1; transform:none; }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .reveal{ opacity:1; transform:none; transition:none; }
+    .hero-anim{ opacity:1 !important; animation:none !important; transform:none !important; }
+    .trace-line{ transition:none !important; stroke-dashoffset:0 !important; }
+    .site-header{ transition:none; }
+  }
+</style>
 </head>
 <body>
-  <div class="circuit-bg" aria-hidden="true">
-    <svg viewBox="0 0 1600 900" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><g stroke="#7c3aed" stroke-width="1" fill="none"><path d="M40 120 H560 M80 80 V340"/><path d="M260 20 V240 H420"/><path d="M900 50 H1400 V120 H860"/><path d="M1200 400 V760 H1400"/></g></svg>
-  </div>
+<a class="skip-link" href="#main">Skip to content</a>
 
-  <div class="container">
-    <header>
-      <div class="brand">
-        <div class="avatar"><img src="profile.jpeg" alt="Prabal Dhar" style="width:100%;height:100%;object-fit:cover;transform:translateZ(40px);"></div>
-        <div>
-          <!-- typed name & role -->
-          <h1 id="typed-name" style="margin:0"><span class="typed-name"></span></h1>
-          <div id="typed-role" class="muted typed-role">Computer Science & Data Science</div>
+<!-- Signature waveform, defined once, reused via <use> -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <path id="eeg-trace" pathLength="1" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      d="M0,20 H60 L66,20 L72,4 L78,36 L84,10 L90,20 H160 L166,20 L172,6 L178,34 L184,12 L190,20 H280 L286,20 L292,2 L298,38 L304,8 L310,20 H400 L406,20 L412,6 L418,32 L424,14 L430,20 H520 L526,20 L532,4 L538,36 L544,10 L550,20 H640 L646,20 L652,6 L658,34 L664,12 L670,20 H800"/>
+  </defs>
+</svg>
+
+<header class="site-header" id="site-header">
+  <div class="site-header__inner">
+    <a class="brand" href="#main">PRABAL DHAR</a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="#about">About</a>
+      <a href="#research">Research</a>
+      <a href="#publications">Publications</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+      <a class="cv-link" href="https://drive.google.com/file/d/1QYk-l2amT0ZbYDbHel9vh91KoG34DzAq/view?usp=sharing" target="_blank" rel="noopener">CV ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="section hero">
+    <svg class="hero__trace" viewBox="0 0 800 40" preserveAspectRatio="none" aria-hidden="true">
+      <use href="#eeg-trace" id="hero-trace-use" class="trace-line"/>
+    </svg>
+    <div class="hero__content">
+      <div class="intro-badge hero-anim mono" style="animation-delay:.05s">PD</div>
+      <p class="eyebrow hero-anim" style="animation-delay:.15s">Hi, I'm</p>
+      <h1 class="hero-anim" style="animation-delay:.25s">Prabal Dhar</h1>
+      <p class="hero__role hero-anim" style="animation-delay:.35s">Master of Information Technology (Data Analysis) candidate — Griffith University, Gold Coast</p>
+      <p class="lede hero-anim" style="animation-delay:.45s">My research focuses on EEG-based visual decoding, approached through a lens of trustworthy and explainable AI. Before this, I completed my B.Tech (Honours) in Computer Science &amp; Engineering — Data Science at Jain University, where I built CNN-based models for medical imaging, including a glaucoma detection system presented at IEEE ICBMESH 2025.</p>
+      <div class="cta-row hero-anim" style="animation-delay:.55s">
+        <a class="btn primary" href="mailto:prabaldharofficial@gmail.com">Email me</a>
+        <a class="btn ghost" href="https://github.com/PrabalDhar14" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn ghost" href="https://www.linkedin.com/in/prabaldhar01/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider" aria-hidden="true"><svg viewBox="0 0 800 40" preserveAspectRatio="none"><use href="#eeg-trace" class="trace-line"/></svg></div>
+
+  <section class="section reveal" id="about">
+    <p class="eyebrow">Education</p>
+    <h2>From data science to explainable AI</h2>
+
+    <div class="grid-row reveal">
+      <div class="grid-row__tag mono">2025 — present</div>
+      <div>
+        <div class="grid-row__title">Master of Information Technology (Data Analysis)</div>
+        <div class="grid-row__sub">Griffith University, Gold Coast, Australia</div>
+      </div>
+    </div>
+    <div class="grid-row reveal">
+      <div class="grid-row__tag mono">Completed June 2025</div>
+      <div>
+        <div class="grid-row__title">B.Tech (Honours), Computer Science &amp; Engineering — Data Science</div>
+        <div class="grid-row__sub">Jain University · First Class</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider" aria-hidden="true"><svg viewBox="0 0 800 40" preserveAspectRatio="none"><use href="#eeg-trace" class="trace-line"/></svg></div>
+
+  <section class="section reveal" id="research">
+    <p class="eyebrow">Research</p>
+    <h2>EEG-based visual decoding</h2>
+    <p>My current research investigates EEG-based visual decoding, supervised within a broader focus on trustworthy and explainable AI. The groundwork spans the THINGS-EEG and THINGS-MEG datasets and recent decoding methods, including UBP, CognitionCapturer, CLIP-KD, E2IVAE, and NEED.</p>
+  </section>
+
+  <div class="divider" aria-hidden="true"><svg viewBox="0 0 800 40" preserveAspectRatio="none"><use href="#eeg-trace" class="trace-line"/></svg></div>
+
+  <section class="section reveal" id="publications">
+    <p class="eyebrow">Publications</p>
+    <h2>Publications</h2>
+
+    <div class="grid-row reveal">
+      <div class="grid-row__tag mono">2025</div>
+      <p class="grid-row__desc placeholder">Journal article — title and venue to be added.</p>
+    </div>
+    <div class="grid-row reveal">
+      <div class="grid-row__tag mono">2025</div>
+      <p class="grid-row__desc">IEEE ICBMESH — Hybrid CNN-based glaucoma detection and severity grading. Presented orally.</p>
+    </div>
+  </section>
+
+  <div class="divider" aria-hidden="true"><svg viewBox="0 0 800 40" preserveAspectRatio="none"><use href="#eeg-trace" class="trace-line"/></svg></div>
+
+  <section class="section reveal" id="projects">
+    <p class="eyebrow">Projects</p>
+    <h2>Selected work</h2>
+
+    <div class="project reveal">
+      <div class="project__head">
+        <h3>Glaucoma detection &amp; severity grading</h3>
+      </div>
+      <div class="project__meta mono">EfficientNetB3 · Grad-CAM · Flask · MySQL</div>
+      <div class="project__body">
+        <p>A hybrid CNN pipeline for glaucoma detection and severity grading, built on an EfficientNetB3 backbone with an augmentation pipeline, checkpointing, and Grad-CAM-based explainability. Deployed as a Flask application backed by MySQL.</p>
+        <div class="project__stat">
+          <span class="num" data-count="89.4">0%</span>
+          <span class="label">validation accuracy</span>
         </div>
       </div>
-      <nav>
-        <a href="#about">About</a>
-        <a href="#projects">Projects</a>
-        <a href="#skills">Skills</a>
-        <a class="primary" href="#contact">Contact</a>
-        <a class="social-link" href="https://www.linkedin.com/in/prabaldhar01/" target="_blank" rel="noopener">LinkedIn</a>
-      </nav>
-    </header>
+      <a class="project__link" href="https://github.com/PrabalDhar14/glaucoma" target="_blank" rel="noopener">View repository →</a>
+    </div>
 
-    <main>
-      <section class="hero">
-        <div class="card">
-          <h2 class="title">Hi — I’m <span class="typed-name-inline" aria-hidden="true"></span></h2>
-          <p class="muted">B.Tech (Honours) — CSE (Data Science).</p>
+    <div class="project reveal">
+      <div class="project__head">
+        <h3>Iris flower classification</h3>
+      </div>
+      <div class="project__meta mono">scikit-learn · Cross-validation</div>
+      <div class="project__body">
+        <p>A reproducible classification pipeline with deterministic seeds, stratified cross-validation, and hyperparameter search, packaged with clear evaluation notebooks.</p>
+      </div>
+      <a class="project__link" href="https://github.com/PrabalDhar14/iris" target="_blank" rel="noopener">View repository →</a>
+    </div>
 
-          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px">
-            <a class="btn" href="https://github.com/PrabalDhar14" target="_blank" rel="noopener">GitHub</a>
-            <a class="btn primary" href="https://drive.google.com/file/d/1QYk-l2amT0ZbYDbHel9vh91KoG34DzAq/view?usp=sharing" target="_blank" rel="noopener">📄 CV</a>
-            <a class="social-link" href="https://www.linkedin.com/in/prabaldhar01/" target="_blank" rel="noopener">🔗 LinkedIn</a>
-          </div>
+    <div class="in-progress reveal">
+      <p class="eyebrow">Currently building</p>
+      <p>An autonomous AI agent in Python, with an accompanying research paper.</p>
+    </div>
+  </section>
 
-          <div class="terminal">
-            <div><span class="prompt">$</span> Enthusiastic Computer Science Engineering graduate passionate about Machine Learning & Deep Learning<span class="blink"></span></div>
-          </div>
-        </div>
-      </section>
+  <div class="divider" aria-hidden="true"><svg viewBox="0 0 800 40" preserveAspectRatio="none"><use href="#eeg-trace" class="trace-line"/></svg></div>
 
-      <section id="skills">
-        <div class="card">
-          <h2>Technical Skills</h2>
-          <div class="skills">
-            <div class="skill" data-percent="80"><span class="dot"></span>Python</div>
-            <div class="skill" data-percent="85"><span class="dot"></span>PyTorch</div>
-            <div class="skill" data-percent="75"><span class="dot"></span>TensorFlow</div>
-            <div class="skill" data-percent="75"><span class="dot"></span>Data Analysis</div>
-            <div class="skill" data-percent="80"><span class="dot"></span>Deep Learning</div>
-            <div class="skill" data-percent="70"><span class="dot"></span>MySQL</div>
-          </div>
-        </div>
-      </section>
+  <section class="section reveal" id="skills">
+    <p class="eyebrow">Skills</p>
+    <h2>Toolkit</h2>
 
-      <section id="projects">
-        <h2>Projects</h2>
-        <div class="projects">
-          <div class="project reveal" data-title="Hybrid CNN — Glaucoma Detection" data-desc="EfficientNetB3 backbone, custom heads, extensive augmentation, model checkpointing, Achieved strong validation performance with robust error analysis." data-repo="https://github.com/PrabalDhar14/glaucoma">
-            <div class="project-inner">
-              <div class="project-front">
-                <div class="thumb">GLU</div>
-                <div>
-                  <h3>Hybrid CNN — Glaucoma Detection</h3>
-                  <p>EfficientNetB3 with full pipeline and Flask demo.</p>
-                  <div class="hint">Click to view details</div>
-                </div>
-              </div>
-              <div class="project-back">
-                <h3>Hybrid CNN — Glaucoma Detection</h3>
-                <p style="color:var(--muted);margin:8px 0 12px;">EfficientNetB3 backbone, custom heads, augmentation pipeline, checkpointing and Flask demo app. Focused on robust validation and explainability.</p>
-                <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
-                  <a class="btn" href="https://github.com/PrabalDhar14/glaucoma" target="_blank" rel="noopener">View repo</a>
-                  
-                </div>
-              </div>
-            </div>
-          </div>
+    <div class="skill-group reveal">
+      <h4>Languages &amp; frameworks</h4>
+      <div class="tag-list">
+        <span class="tag">Python</span>
+        <span class="tag">PyTorch</span>
+        <span class="tag">TensorFlow</span>
+      </div>
+    </div>
+    <div class="skill-group reveal">
+      <h4>Deep learning &amp; computer vision</h4>
+      <div class="tag-list">
+        <span class="tag">CNN architectures (ResNet, EfficientNet)</span>
+        <span class="tag">Grad-CAM explainability</span>
+      </div>
+    </div>
+    <div class="skill-group reveal">
+      <h4>Data &amp; deployment</h4>
+      <div class="tag-list">
+        <span class="tag">MySQL</span>
+        <span class="tag">Flask</span>
+        <span class="tag">Data analysis</span>
+      </div>
+    </div>
+  </section>
 
-          <div class="project reveal" data-title="Iris Flower Classification" data-desc="Clean experiments focused on reproducibility: deterministic seeds, stratified cross-validation, hyperparameter search, and clear evaluation visuals. Includes notebooks and a small web demo." data-repo="https://github.com/PrabalDhar14/iris">
-            <div class="project-inner">
-              <div class="project-front">
-                <div class="thumb">IRIS</div>
-                <div>
-                  <h3>Iris Flower Classification</h3>
-                  <p>Reproducible ML experiments with cross-validation.</p>
-                  <div class="hint">Click to view details</div>
-                </div>
-              </div>
-              <div class="project-back">
-                <h3>Iris Flower Classification</h3>
-                <p style="color:var(--muted);margin:8px 0 12px;">Deterministic seeds, stratified CV, hyperparameter search and clear evaluation visuals. Notebooks included.</p>
-                <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
-                  <a class="btn" href="https://github.com/PrabalDhar14/iris" target="_blank" rel="noopener">View repo</a>
-                </div>
-              </div>
-            </div>
-          </div>
+  <div class="divider" aria-hidden="true"><svg viewBox="0 0 800 40" preserveAspectRatio="none"><use href="#eeg-trace" class="trace-line"/></svg></div>
 
-        </div>
-      </section>
+  <section class="section reveal" id="contact">
+    <p class="eyebrow">Contact</p>
+    <h2>Get in touch</h2>
+    <p class="lede">Reach out by email, or find me on GitHub and LinkedIn.</p>
+    <div class="contact-links">
+      <a class="btn primary" href="mailto:prabaldharofficial@gmail.com">prabaldharofficial@gmail.com</a>
+      <a class="btn ghost" href="https://github.com/PrabalDhar14" target="_blank" rel="noopener">GitHub</a>
+      <a class="btn ghost" href="https://www.linkedin.com/in/prabaldhar01/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </section>
 
-      <section id="contact">
-        <div class="card">
-          <h2>Get in touch</h2>
-          <a class="btn primary" href="mailto:prabaldharofficial@gmail.com">📧 Email Me</a>
-        </div>
-      </section>
+</main>
 
-      <footer>
-        <div>Made with ❤️ — Prabal Dhar · <a href="https://github.com/PrabalDhar14" target="_blank" rel="noopener">GitHub</a></div>
-      </footer>
-    </main>
-  </div>
+<footer>
+  <span>© 2026 Prabal Dhar</span>
+  <span>Gold Coast, Australia</span>
+</footer>
 
-  <!-- particle canvas will be created by JS if not present -->
-  <canvas id="particle-canvas" aria-hidden="true"></canvas>
-
-<!-- Interactive JS: typing (loop), refined skill bars, flip cards, particles, reveal -->
 <script>
-document.addEventListener('DOMContentLoaded', function(){
-  /* ================= Typewriter loop for name =================
-     loops: type -> pause -> delete -> pause -> repeat
-     updates both #typed-name .typed-name and .typed-name-inline
-  */
-  const nameEls = {
-    header: document.querySelector('#typed-name .typed-name'),
-    inline: document.querySelector('.typed-name-inline'),
-    role: document.getElementById('typed-role')
-  };
-  const fullName = 'Prabal Dhar';
-  const fullRole = 'Computer Science & Data Science';
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // create header name container if missing (keeps your existing markup safe)
-  if(!nameEls.header){
-    const span = document.createElement('span');
-    span.className = 'typed-name';
-    document.getElementById('typed-name').appendChild(span);
-    nameEls.header = span;
-  }
-  if(!nameEls.inline) {
-    const span2 = document.querySelector('.typed-name-inline');
-    if(!span2){
-      const elem = document.createElement('span');
-      elem.className = 'typed-name-inline';
-      document.querySelector('.title')?.appendChild(elem);
-      nameEls.inline = elem;
-    } else nameEls.inline = span2;
-  }
-
-  function sleep(ms){ return new Promise(res => setTimeout(res, ms)); }
-
-  async function typeLoop(el, text, typeSpeed=80, pauseAfter=900, deleteSpeed=40){
-    while(true){
-      // type
-      el.textContent = '';
-      for(let i=0;i<text.length;i++){
-        el.textContent += text[i];
-        await sleep(typeSpeed);
-      }
-      await sleep(pauseAfter);
-      // delete
-      for(let i=text.length-1;i>=0;i--){
-        el.textContent = text.slice(0,i);
-        await sleep(deleteSpeed);
-      }
-      await sleep(400);
+  // Header shadow on scroll
+  (function(){
+    var header = document.getElementById('site-header');
+    if(!header) return;
+    function onScroll(){
+      if(window.scrollY > 8){ header.classList.add('is-scrolled'); }
+      else{ header.classList.remove('is-scrolled'); }
     }
-  }
-
-  // start header + inline loops slightly staggered
-  typeLoop(nameEls.header, fullName, 90, 900, 50);
-  // inline mirrors header but with a small offset for visual interest
-  setTimeout(()=> typeLoop(nameEls.inline, fullName, 90, 900, 50), 350);
-
-  // type role once (no loop) after first name typed
-  (async ()=>{
-    await sleep(fullName.length*90 + 600);
-    if(nameEls.role) { nameEls.role.textContent = ''; for(let i=0;i<fullRole.length;i++){ nameEls.role.textContent += fullRole[i]; await sleep(55);} }
+    window.addEventListener('scroll', onScroll, { passive:true });
+    onScroll();
   })();
 
-  /* ================ reveal observer (stagger) ================ */
-  const reveals = document.querySelectorAll('.card, .project');
-  const io = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
-  },{threshold:0.12});
-  reveals.forEach((el,i)=>{ el.classList.add('reveal'); el.style.transitionDelay = (i*80)+'ms'; io.observe(el); });
+  // Reveal sections and inner items as they scroll into view
+  (function(){
+    var items = document.querySelectorAll('.reveal');
+    if(reduceMotion || !('IntersectionObserver' in window)){
+      items.forEach(function(el){ el.classList.add('visible'); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    items.forEach(function(el){ io.observe(el); });
+  })();
 
-  /* ================ skill bars ================ */
-  document.querySelectorAll('.skill').forEach((s, idx)=>{
-    const pct = Number(s.dataset.percent || 80);
-    const bar = s.querySelector('.bar') || (function(){ const b=document.createElement('div'); b.className='bar'; s.appendChild(b); return b; })();
-    const label = s.querySelector('.label') || (function(){ const l=document.createElement('div'); l.className='label'; while(s.firstChild && !s.firstChild.classList){ l.appendChild(s.firstChild); } s.appendChild(l); return l; })();
-    setTimeout(()=>{ bar.style.width = Math.max(6, Math.min(100, pct))+'%'; }, 150 + idx*120);
-  });
+  // Draw in the signature waveform each time a divider scrolls into view
+  (function(){
+    var traces = document.querySelectorAll('.divider .trace-line');
+    if(reduceMotion || !('IntersectionObserver' in window)){
+      traces.forEach(function(el){ el.classList.add('in-view'); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.4 });
+    traces.forEach(function(el){ io.observe(el); });
+  })();
 
-  /* ================ projects flip cards ================ */
-  document.querySelectorAll('.project').forEach((p)=>{
-    // ensure structure exists (we already created in markup)
-    const inner = p.querySelector('.project-inner');
-    if(!inner) return;
-    // click toggles flip; ignore clicks on links
-    p.addEventListener('click', (ev)=>{ if(ev.target.tagName==='A') return; p.classList.toggle('flipped'); });
-    // keyboard accessibility
-    p.tabIndex = 0;
-    p.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); p.classList.toggle('flipped'); } });
-  });
+  // Hero waveform draws in once on load
+  (function(){
+    var el = document.getElementById('hero-trace-use');
+    if(!el) return;
+    if(reduceMotion){ el.classList.add('in-view'); return; }
+    setTimeout(function(){ el.classList.add('in-view'); }, 300);
+  })();
 
-  /* ================ particle background ================ */
-  const canvas = document.getElementById('particle-canvas');
-  const ctx = canvas.getContext && canvas.getContext('2d') ? canvas.getContext('2d') : null;
-  if(ctx){
-    function resize(){ canvas.width = innerWidth; canvas.height = innerHeight; }
-    window.addEventListener('resize', resize); resize();
-    const COUNT = 35;
-    const particles = Array.from({length:COUNT}).map(()=>({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*1.6 + 0.4, vx:(Math.random()-0.5)*0.25, vy:(Math.random()-0.5)*0.25 }));
-    function tick(){ ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; if(p.x<0) p.x=canvas.width; if(p.x>canvas.width) p.x=0; if(p.y<0) p.y=canvas.height; if(p.y>canvas.height) p.y=0; ctx.beginPath(); ctx.fillStyle='rgba(124,58,237,0.7)'; ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill(); }); requestAnimationFrame(tick); }
-    tick();
-  } else {
-    // fallback: hide canvas if 2D not supported
-    canvas.style.display='none';
-  }
-
-  // allow ESC to close flipped cards
-  window.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ document.querySelectorAll('.project.flipped').forEach(p=>p.classList.remove('flipped')); } });
-
-  /* ensure footer stays at bottom by shrinking any accidental extra page height (safety) */
-  // nothing required here — CSS body/main handles it
-});
+  // Animate the validation-accuracy stat counting up when it enters view
+  (function(){
+    var nums = document.querySelectorAll('.project__stat .num[data-count]');
+    if(nums.length === 0) return;
+    if(reduceMotion || !('IntersectionObserver' in window)){
+      nums.forEach(function(el){ el.textContent = el.dataset.count + '%'; });
+      return;
+    }
+    function animate(el){
+      var target = parseFloat(el.dataset.count);
+      var duration = 1300;
+      var start = null;
+      function step(ts){
+        if(!start) start = ts;
+        var progress = Math.min((ts - start) / duration, 1);
+        var eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = (target * eased).toFixed(1) + '%';
+        if(progress < 1){ requestAnimationFrame(step); }
+      }
+      requestAnimationFrame(step);
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          animate(entry.target);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.6 });
+    nums.forEach(function(el){ io.observe(el); });
+  })();
 </script>
 
 </body>
